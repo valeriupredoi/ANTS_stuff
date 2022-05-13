@@ -72,6 +72,7 @@ or raise a descriptive exception, e.g. a fix on-the-fly applies the fix in this 
             invalid_boxes = [
                 invalid for invalid in invalid_boxes if not invalid
             ]
+            # fix boxes or alternatively raise exception
             if invalid_boxes:
                 print(f"At least one of the two {boxes} is invalid."
                       f"Attempting to fix {boxes}.")
