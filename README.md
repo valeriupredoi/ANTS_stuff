@@ -59,4 +59,9 @@ E   TypeError: CubeList.extract() got an unexpected keyword argument 'strict'
                                    time.second)
         return int(time.strftime("%Y%m%d%H%M%S").strip())
 ```
-
+- `cubes.extract_strict()` -> `cubes.extract_cube()`
+- iris exceptions of ConstraintMismatchError can be circumvented, and just check on the result,
+  if null, apply the `except` clause from previous try/except implement;
+- please don't assume `nccmp` is a given in the system!
+- `numpy.float` etc deprecated
+- 
