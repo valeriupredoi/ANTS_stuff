@@ -46,4 +46,17 @@ lib/ants/fileformats/_ugrid.py:335: in _construct_mesh
     node_latitudes = self.cubes.extract(
 E   TypeError: CubeList.extract() got an unexpected keyword argument 'strict'
 ```
+- remove all instances of `strict` from `iris.Constraint`
+- adjust all instances of resulted `CubeList` instead of `Cube` (to point to a single cube, that is the only element of the cubes list)
+- handle `0000-00-00 00:00:00` times that cftime doesn't like: in `lib/ants/fileformats/pp/__init__.py` modufy the time converter:
+
+```python
+    def int_time(time):
+        # Converts a time of "1-02-03 04:05:06" to 10203040506
+        if time.month == 0 and time.day == 0:
+            time = cftime.datetime(time.year, 1, 1,
+                                   time.hour, time.minute,
+                                   time.second)
+        return int(time.strftime("%Y%m%d%H%M%S").strip())
+```
 
