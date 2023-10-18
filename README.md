@@ -30,6 +30,26 @@ Packages in `ANTS_contrib/Projects/CMIP/CMIP6`:
 - RedistributeOzone :: 3 (seemingly)
 - utils :: 3
 
+Python2 to Python3 Migration
+----------------------------
+
+Migration from the orginal BGCVal code, which was Python2, has been done with the `2to3` tool:
+
+- Install `2to3` package:
+
+```
+pip install 2to3
+```
+
+- Usage: use the 3.9 extension and write to disk option:
+
+```
+2to3-3.9 script.py -w
+```
+
+Remove the backup `.py.bak` files or stash them.
+
+
 ## Dev work
 
 ### 16 October 2023
