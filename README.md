@@ -11,6 +11,27 @@ Stuff related to the MO package ANTS
 - [ANTS CMIP7 project](https://code.metoffice.gov.uk/trac/ancil/browser/contrib/trunk/Projects/CMIP/CMIP7)
 - [ANTS CMIP6 project](https://code.metoffice.gov.uk/trac/ancil/browser/contrib/trunk/Projects/CMIP/CMIP6)
 
+Locations
+---------
+
+- ANTS contrib in `ANTS_contrib`
+- ANTS code base (trunk) in `ANTS_trunk`
+
+Python status
+-------------
+
+Packages in `ANTS_contrib/Projects/CMIP/CMIP6`:
+
+- AerosolChemistryEmissions :: 2
+- GreenhouseGases :: 2
+- LandUse :: 2
+- NitrogenDeposition :: 2
+- OzoneConc :: 2
+- RedistributeOzone :: 3 (seemingly)
+- utils :: 3
+
+## Dev work
+
 ### 16 October 2023
 
 Trying to install and get ANTS to work with latest Python and ``iris``.
