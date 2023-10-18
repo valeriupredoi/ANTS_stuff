@@ -8,6 +8,7 @@ Stuff related to the MO package ANTS
 - [ANTS on MOSRS](https://code.metoffice.gov.uk/trac/ancil)
 - [ANTS codebase at CodeMO](https://code.metoffice.gov.uk/svn/ancil/ants/)
 - [ANTS contrib](https://code.metoffice.gov.uk/trac/ancil/browser/contrib/)
+- [ANTS CMIP7 project](https://code.metoffice.gov.uk/trac/ancil/browser/contrib/trunk/Projects/CMIP/CMIP7)
 
 ### 16 October 2023
 
