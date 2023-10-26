@@ -1,5 +1,6 @@
 channels:
   - conda-forge
+  - coecms
   - nodefaults
 dependencies:
   - black
@@ -14,6 +15,7 @@ dependencies:
   - iris=2.3
   - isort<5.12
   - mo_pack
+  - mule
   - numba
   - numpy=1.17.5
   - pre-commit
