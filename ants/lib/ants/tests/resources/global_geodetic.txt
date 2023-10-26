@@ -1,0 +1,9 @@
+File generated using ants (v0.11) iris (v1.13):
+
+```
+from iris.experimental.raster import export_geotiff
+import ants.tests as tests
+
+cube = tests.stock.geodetic((6, 3))
+export_geotiff(cube, 'global_geodetic.bil')
+```

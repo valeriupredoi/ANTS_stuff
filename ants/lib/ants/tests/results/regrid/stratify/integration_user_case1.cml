@@ -1,0 +1,80 @@
+<?xml version="1.0" ?>
+<cubes xmlns="urn:x-iris:cubeml-0.2">
+  <cube dtype="float64" standard_name="air_temperature" units="K">
+    <coords>
+      <coord datadims="[1, 2, 3]">
+        <auxCoord id="9041e969" points="[[[5040.5, 5090.5, 5140.5, 5190.5, 5240.5, 5290.5],
+		 [5340.5, 5390.5, 5440.5, 5490.5, 5540.5, 5590.5],
+		 [5640.5, 5690.5, 5740.5, 5790.5, 5840.5, 5890.5],
+		 [5940.5, 5990.5, 6040.5, 6090.5, 6140.5, 6190.5],
+		 [6240.5, 6290.5, 6340.5, 6390.5, 6440.5, 6490.5]],
+
+		[[5141.5, 5192.5, 5243.5, 5294.5, 5345.5, 5396.5],
+		 [5447.5, 5498.5, 5549.5, 5600.5, 5651.5, 5702.5],
+		 [5753.5, 5804.5, 5855.5, 5906.5, 5957.5, 6008.5],
+		 [6059.5, 6110.5, 6161.5, 6212.5, 6263.5, 6314.5],
+		 [6365.5, 6416.5, 6467.5, 6518.5, 6569.5, 6620.5]],
+
+		[[5242.5, 5294.5, 5346.5, 5398.5, 5450.5, 5502.5],
+		 [5554.5, 5606.5, 5658.5, 5710.5, 5762.5, 5814.5],
+		 [5866.5, 5918.5, 5970.5, 6022.5, 6074.5, 6126.5],
+		 [6178.5, 6230.5, 6282.5, 6334.5, 6386.5, 6438.5],
+		 [6490.5, 6542.5, 6594.5, 6646.5, 6698.5, 6750.5]],
+
+		[[5343.5, 5396.5, 5449.5, 5502.5, 5555.5, 5608.5],
+		 [5661.5, 5714.5, 5767.5, 5820.5, 5873.5, 5926.5],
+		 [5979.5, 6032.5, 6085.5, 6138.5, 6191.5, 6244.5],
+		 [6297.5, 6350.5, 6403.5, 6456.5, 6509.5, 6562.5],
+		 [6615.5, 6668.5, 6721.5, 6774.5, 6827.5, 6880.5]]]" shape="(4, 5, 6)" standard_name="altitude" units="Unit('m')" value_type="float64">
+          <attributes>
+            <attribute name="positive" value="up"/>
+          </attributes>
+        </auxCoord>
+      </coord>
+      <coord datadims="[2]">
+        <dimCoord bounds="[[-90.0, -54.0],
+		[-54.0, -18.0],
+		[-18.0, 18.0],
+		[18.0, 54.0],
+		[54.0, 90.0]]" id="1ed16f0e" points="[-72.0, -36.0, 0.0, 36.0, 72.0]" shape="(5,)" standard_name="latitude" units="Unit('degree_north')" value_type="float64">
+          <geogCS earth_radius="6371229.0"/>
+        </dimCoord>
+      </coord>
+      <coord datadims="[1]">
+        <auxCoord id="d70a5be9" long_name="level_height" points="[40.5, 41.5, 42.5, 43.5]" shape="(4,)" units="Unit('m')" value_type="float64"/>
+      </coord>
+      <coord datadims="[3]">
+        <dimCoord bounds="[[-180.0, -120.0],
+		[-120.0, -60.0],
+		[-60.0, 0.0],
+		[0.0, 60.0],
+		[60.0, 120.0],
+		[120.0, 180.0]]" circular="True" id="b52890c8" points="[-150.0, -90.0, -30.0, 30.0, 90.0, 150.0]" shape="(6,)" standard_name="longitude" units="Unit('degree_east')" value_type="float64">
+          <geogCS earth_radius="6371229.0"/>
+        </dimCoord>
+      </coord>
+      <coord datadims="[1]">
+        <dimCoord id="38fd0305" points="[10, 11, 12, 13]" shape="(4,)" standard_name="model_level_number" units="Unit('1')" value_type="int64">
+          <attributes>
+            <attribute name="positive" value="up"/>
+          </attributes>
+        </dimCoord>
+      </coord>
+      <coord datadims="[1]">
+        <auxCoord id="a5c170db" long_name="sigma" points="[50, 51, 52, 53]" shape="(4,)" units="Unit('1')" value_type="int64"/>
+      </coord>
+      <coord datadims="[2, 3]">
+        <auxCoord id="6e1f874b" long_name="surface_altitude" points="[[100, 101, 102, 103, 104, 105],
+		[106, 107, 108, 109, 110, 111],
+		[112, 113, 114, 115, 116, 117],
+		[118, 119, 120, 121, 122, 123],
+		[124, 125, 126, 127, 128, 129]]" shape="(5, 6)" units="Unit('m')" value_type="int64"/>
+      </coord>
+      <coord datadims="[0]">
+        <dimCoord id="cb784457" points="[10]" shape="(1,)" standard_name="time" units="Unit('hours since 1970-01-01 00:00:00', calendar='gregorian')" value_type="int64"/>
+      </coord>
+    </coords>
+    <cellMethods/>
+    <data checksum="0xd9696a06" dtype="float64" shape="(1, 4, 5, 6)"/>
+  </cube>
+</cubes>

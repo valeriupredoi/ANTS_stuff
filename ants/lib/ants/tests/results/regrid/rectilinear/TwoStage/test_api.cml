@@ -1,0 +1,42 @@
+<?xml version="1.0" ?>
+<cubes xmlns="urn:x-iris:cubeml-0.2">
+  <cube dtype="float64" units="unknown">
+    <coords>
+      <coord datadims="[0]">
+        <dimCoord bounds="[[45.0, 45.4],
+		[45.4, 45.8],
+		[45.8, 46.2],
+		..., 
+		[63.8, 64.2],
+		[64.2, 64.6],
+		[64.6, 65.0]]" id="1ed16f0e" points="[45.2, 45.6, 46.0, 46.4, 46.8, 47.2, 47.6, 48.0,
+		48.4, 48.8, 49.2, 49.6, 50.0, 50.4, 50.8, 51.2,
+		51.6, 52.0, 52.4, 52.8, 53.2, 53.6, 54.0, 54.4,
+		54.8, 55.2, 55.6, 56.0, 56.4, 56.8, 57.2, 57.6,
+		58.0, 58.4, 58.8, 59.2, 59.6, 60.0, 60.4, 60.8,
+		61.2, 61.6, 62.0, 62.4, 62.8, 63.2, 63.6, 64.0,
+		64.4, 64.8]" shape="(50,)" standard_name="latitude" units="Unit('degree_north')" value_type="float64">
+          <geogCS earth_radius="6371229.0"/>
+        </dimCoord>
+      </coord>
+      <coord datadims="[1]">
+        <dimCoord bounds="[[-10.0, -9.6],
+		[-9.6, -9.2],
+		[-9.2, -8.8],
+		..., 
+		[8.8, 9.2],
+		[9.2, 9.6],
+		[9.6, 10.0]]" id="b52890c8" points="[-9.8, -9.4, -9.0, -8.6, -8.2, -7.8, -7.4, -7.0,
+		-6.6, -6.2, -5.8, -5.4, -5.0, -4.6, -4.2, -3.8,
+		-3.4, -3.0, -2.6, -2.2, -1.8, -1.4, -1.0, -0.6,
+		-0.2, 0.2, 0.6, 1.0, 1.4, 1.8, 2.2, 2.6, 3.0,
+		3.4, 3.8, 4.2, 4.6, 5.0, 5.4, 5.8, 6.2, 6.6,
+		7.0, 7.4, 7.8, 8.2, 8.6, 9.0, 9.4, 9.8]" shape="(50,)" standard_name="longitude" units="Unit('degree_east')" value_type="float64">
+          <geogCS earth_radius="6371229.0"/>
+        </dimCoord>
+      </coord>
+    </coords>
+    <cellMethods/>
+    <data checksum="0x499b68cc" dtype="float64" mask_checksum="no-masked-elements" shape="(50, 50)"/>
+  </cube>
+</cubes>

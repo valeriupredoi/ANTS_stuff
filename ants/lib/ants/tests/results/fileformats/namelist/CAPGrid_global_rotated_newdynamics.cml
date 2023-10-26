@@ -1,0 +1,40 @@
+<?xml version="1.0" ?>
+<cubes xmlns="urn:x-iris:cubeml-0.2">
+  <cube dtype="float64" long_name="Model Grid" units="unknown">
+    <attributes>
+      <attribute name="grid_staggering" value="3"/>
+    </attributes>
+    <coords>
+      <coord datadims="[0]">
+        <dimCoord bounds="[[90.0, 75.0],
+		[75.0, 45.0],
+		[45.0, 15.0],
+		[15.0, -15.0],
+		[-15.0, -45.0],
+		[-45.0, -75.0],
+		[-75.0, -90.0]]" id="a901c6e3" points="[90.0, 60.0, 30.0, 0.0, -30.0, -60.0, -90.0]" shape="(7,)" standard_name="grid_latitude" units="Unit('degrees')" value_type="float64">
+          <rotatedGeogCS ellipsoid="GeogCS(6371229.0)" grid_north_pole_latitude="10.0" grid_north_pole_longitude="20.0"/>
+        </dimCoord>
+      </coord>
+      <coord datadims="[1]">
+        <dimCoord bounds="[[-15.0, 15.0],
+		[15.0, 45.0],
+		[45.0, 75.0],
+		[75.0, 105.0],
+		[105.0, 135.0],
+		[135.0, 165.0],
+		[165.0, 195.0],
+		[195.0, 225.0],
+		[225.0, 255.0],
+		[255.0, 285.0],
+		[285.0, 315.0],
+		[315.0, 345.0]]" circular="True" id="67405e55" points="[0.0, 30.0, 60.0, 90.0, 120.0, 150.0, 180.0,
+		210.0, 240.0, 270.0, 300.0, 330.0]" shape="(12,)" standard_name="grid_longitude" units="Unit('degrees')" value_type="float64">
+          <rotatedGeogCS ellipsoid="GeogCS(6371229.0)" grid_north_pole_latitude="10.0" grid_north_pole_longitude="20.0"/>
+        </dimCoord>
+      </coord>
+    </coords>
+    <cellMethods/>
+    <data dtype="float64" shape="(7, 12)" state="deferred"/>
+  </cube>
+</cubes>

@@ -1,0 +1,34 @@
+<?xml version="1.0" ?>
+<cubes xmlns="urn:x-iris:cubeml-0.2">
+  <cube dtype="float64" long_name="Model vertical definition" units="unknown">
+    <coords>
+      <coord datadims="[0]">
+        <auxCoord bounds="[[0.0, 0.8125],
+		[0.8125, 1.5625],
+		[1.5625, 2.5],
+		[2.5, 4.0],
+		[4.0, 6.0]]" id="787b41d3" points="[0.5, 1.125, 2.0, 3.0, 5.0]" shape="(5,)" units="Unit('m')" value_type="float64" var_name="level_height">
+          <attributes>
+            <attribute name="positive" value="up"/>
+          </attributes>
+        </auxCoord>
+      </coord>
+      <coord datadims="[0]">
+        <dimCoord id="38fd0305" points="[1, 2, 3, 4, 5]" shape="(5,)" standard_name="model_level_number" units="Unit('1')" value_type="int64">
+          <attributes>
+            <attribute name="positive" value="up"/>
+          </attributes>
+        </dimCoord>
+      </coord>
+      <coord datadims="[0]">
+        <auxCoord bounds="[[1.0, 0.2304],
+		[0.2304, 0.0],
+		[0.0, 0.0],
+		[0.0, 0.0],
+		[0.0, 0.0]]" id="a5c170db" long_name="sigma" points="[0.4624, 0.0784, 0.0, 0.0, 0.0]" shape="(5,)" units="Unit('1')" value_type="float64"/>
+      </coord>
+    </coords>
+    <cellMethods/>
+    <data dtype="float64" shape="(5,)" state="deferred"/>
+  </cube>
+</cubes>

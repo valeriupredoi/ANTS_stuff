@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+<cubes xmlns="urn:x-iris:cubeml-0.2">
+  <cube dtype="int32" units="unknown">
+    <coords>
+      <coord datadims="[1]">
+        <dimCoord bounds="[[-90.0, -30.0],
+		[-30.0, 30.0],
+		[30.0, 90.0]]" id="1ed16f0e" points="[-60.0, 0.0, 60.0]" shape="(3,)" standard_name="latitude" units="Unit('degree_north')" value_type="float64">
+          <geogCS earth_radius="6371229.0"/>
+        </dimCoord>
+      </coord>
+      <coord datadims="[0]">
+        <auxCoord bounds="[[0.25, 0.75],
+		[0.75, 1.25],
+		[1.25, 1.75]]" id="fb105c19" long_name="level_height" points="[0.5, 1.0, 1.5]" shape="(3,)" units="Unit('m')" value_type="float64">
+          <attributes>
+            <attribute name="positive" value="up"/>
+          </attributes>
+        </auxCoord>
+      </coord>
+      <coord datadims="[3]">
+        <dimCoord bounds="[[-180.0, -90.0],
+		[-90.0, 0.0],
+		[0.0, 90.0],
+		[90.0, 180.0]]" circular="True" id="b52890c8" points="[-135.0, -45.0, 45.0, 135.0]" shape="(4,)" standard_name="longitude" units="Unit('degree_east')" value_type="float64">
+          <geogCS earth_radius="6371229.0"/>
+        </dimCoord>
+      </coord>
+      <coord datadims="[0]">
+        <dimCoord id="38fd0305" points="[1, 2, 3]" shape="(3,)" standard_name="model_level_number" units="Unit('1')" value_type="int64">
+          <attributes>
+            <attribute name="positive" value="up"/>
+          </attributes>
+        </dimCoord>
+      </coord>
+      <coord datadims="[0]">
+        <auxCoord bounds="[[0.1, 0.3],
+		[0.3, 0.5],
+		[0.5, 0.7]]" id="a5c170db" long_name="sigma" points="[0.2, 0.4, 0.6]" shape="(3,)" units="Unit('1')" value_type="float64"/>
+      </coord>
+    </coords>
+    <cellMethods/>
+    <data dtype="int32" shape="(3, 3, 5, 4)" state="deferred"/>
+  </cube>
+</cubes>

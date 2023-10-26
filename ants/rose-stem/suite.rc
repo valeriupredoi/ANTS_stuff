@@ -1,0 +1,364 @@
+#!jinja2
+
+{% set fill_n_merge_source = ['land_cover', 'invert_mask'] %}
+{% set grid_source = ['grid_to_grid', 'grid_to_variable_resolution_grid', 'grid_to_n48e_namelist', 'grid_to_n48_namelist', '3d_to_3d', '3d_to_3d_with_extrapolation', 'invert_mask'] %}
+{% set lct_source = ['cci', 'igbp', 'ite'] %}
+
+
+# This links a name specified on the command in rose-stem with a
+# set of cylc task dependencies
+{# name_graphs contains test_option-dependency key-value pairs -#}
+{%- set name_graphs = {
+    "install_graph" : "install_cold",
+    "ancil_2anc_graph" : "install_cold => ancil_2anc<split> => rose_ana_2anc",
+    "fill_n_merge_land_cover_graph" : "install_cold => ancil_lct_preproc_ite<split> => ancil_lct_ite<split> => ancil_fill_n_merge_land_cover => rose_ana_fill_n_merge",
+    "fill_n_merge_invert_mask_graph" : "install_cold => ancil_lct_preproc_ite<split> => ancil_lct_ite<split> => ancil_fill_n_merge_invert_mask => rose_ana_fill_n_merge",
+    "general_regrid_grid_to_grid_graph" : "install_cold => ancil_lct_preproc_cci<split> => ancil_lct_cci<split> => ancil_general_regrid_grid_to_grid<split> => rose_ana_general_regrid",
+    "general_regrid_grid_to_variable_graph" : "install_cold => ancil_lct_preproc_cci<split> => ancil_lct_cci<split> => ancil_general_regrid_grid_to_variable_resolution_grid<split> => rose_ana_general_regrid",
+    "general_regrid_grid_to_n48e_namelist_graph" : "install_cold => ancil_lct_preproc_cci<split> => ancil_lct_cci<split> => ancil_general_regrid_grid_to_n48e_namelist<split> => rose_ana_general_regrid",
+    "general_regrid_grid_to_n48_namelist_graph" : "install_cold => ancil_lct_preproc_cci<split> => ancil_lct_cci<split> => ancil_general_regrid_grid_to_n48_namelist<split> => rose_ana_general_regrid",
+    "general_regrid_3d_to_3d_graph" : "install_cold => ancil_lct_preproc_cci<split> => ancil_lct_cci<split> => ancil_general_regrid_3d_to_3d<split> => rose_ana_general_regrid",
+    "general_regrid_3d_to_3d_with_extrapolation" : "install_cold => ancil_lct_preproc_cci<split> => ancil_lct_cci<split> => ancil_general_regrid_3d_to_3d_with_extrapolation<split> => rose_ana_general_regrid",
+    "general_regrid_invert_mask_graph" : "install_cold => ancil_lct_preproc_cci<split> => ancil_lct_cci<split> => ancil_general_regrid_invert_mask<split> => rose_ana_general_regrid",
+    "general_regrid_time_constrained": "install_cold => ancil_lct_preproc_cci<split> => ancil_lct_cci<split> => ancil_general_regrid_with_time_constraint<split> => rose_ana_general_regrid",
+    "lct_ite_graph" : "install_cold => ancil_lct_preproc_ite<split> => ancil_lct_ite<split> => move_lct_files<split> => LCT_ANA",
+    "lct_cci_graph" : "install_cold => ancil_lct_preproc_cci<split> => ancil_lct_cci<split> => move_lct_files<split> => LCT_ANA
+                       ancil_lct_preproc_cci<split=0> => ancil_lct_preproc_cci<split+1>",
+    "lct_igbp_graph" : "install_cold => ancil_lct_preproc_igbp<split> => ancil_lct_igbp<split> => move_lct_files<split> => LCT_ANA",
+    "lct_lakes_graph" : "install_cold => ancil_generate_masks<split> & ancil_lct_cci<split> => ancil_add_lakes => move_lct_files<split> => LCT_ANA",
+    "lct_c4_graph" : "install_cold => ancil_lct_preproc_cci<split> => ancil_lct_cci<split> => ancil_lct_postproc_c4<split> => move_lct_files<split> => LCT_ANA",
+    "river_routing_gc4_graph": "install_cold => ancil_river_routing_preproc => ancil_river_routing_gc4<split> => rose_ana_river_routing",
+    "river_routing_1d_coupling_graph": "install_cold => ancil_river_routing_preproc => ancil_river_routing_1d_river_coupling<split> => rose_ana_river_routing",
+    "river_storage_graph": "install_cold => ancil_river_storage_preproc & ancil_river_routing_1d_river_coupling<split> => ancil_river_storage => rose_ana_river_storage",
+    "topographic_index_graph": "install_cold => ancil_topographic_index_preproc & ancil_lct_postproc_c4<split> => ancil_topographic_index<split> => rose_ana_topographic_index
+                                install_cold => ancil_lct_preproc_cci<split> => ancil_lct_cci<split> => ancil_lct_postproc_c4<split>",
+    "build_documentation_graph": "install_cold => build_docs => linkcheck",
+    "unittests_graph": "install_cold => unittests",
+    "black_graph": "install_cold => black",
+    "flake8_graph": "install_cold => flake8",
+    "isort_graph": "install_cold => isort",
+}
+-%}
+
+# Define groups as lists of jobs and other groups
+#   If you add a new group, make sure to add it to the "all" group too
+#   N.B. A group can point to other groups, take care to avoid circular
+#   group dependencies
+{# groups contains group_option-trigger_list key-value pairs. -#}
+{# If a group option is set, each group or task in the trigger list will be set. -#}
+{%- set groups = {
+    "all": ["install_tasks", "core", "lct", "river_routing", "topographic_index", "documentation", "unittests"],
+    "install_tasks" : ["install_graph"],
+    "core" : ["ancil_2anc_graph", "fill_n_merge", "general_regrid"],
+    "lct" : ["lct_ite_graph", "lct_cci_graph", "lct_igbp_graph", "lct_lakes_graph", "lct_c4_graph"],
+    "river_routing" : ["river_routing_gc4_graph", "river_routing_1d_coupling_graph", "river_storage_graph"],
+    "topographic_index": ["topographic_index_graph"],
+    "fill_n_merge": ["fill_n_merge_land_cover_graph", "fill_n_merge_invert_mask_graph"],
+    "general_regrid": ["general_regrid_grid_to_grid_graph", "general_regrid_grid_to_variable_graph", "general_regrid_grid_to_n48e_namelist_graph", "general_regrid_grid_to_n48_namelist_graph", "general_regrid_3d_to_3d_graph", "general_regrid_3d_to_3d_with_extrapolation", "general_regrid_time_constrained", "general_regrid_invert_mask_graph"],
+    "documentation": ["build_documentation_graph"],
+    "unittests": ["unittests_graph", "black_graph", "flake8_graph", "isort_graph"],
+}
+-%}
+
+
+[cylc]
+    [[events]]
+        mail events = none
+        shutdown handler = trac_generator.sh
+    [[parameters]]
+        split = 0, 1, 2
+
+[scheduling]
+    [[dependencies]]
+        graph = """
+{#- Recursively add dependencies from RUN_NAMES, replacing groups with subgroups/tasks #}
+{%- set name_graphs_out = [] %}
+{%- set graphs_out = [] %}
+{{ assert(RUN_NAMES is defined, '--group must be defined for this workflow.') }}
+
+{%- for name in RUN_NAMES %}
+    {%- set namestack = [name] %}
+    {%- for stackname in namestack recursive %}
+        {%- if stackname in name_graphs %}
+            {%- if name_graphs_out.append(stackname) %}
+            {%- endif %}
+            {%- set outgraph = name_graphs[stackname] %}
+            {%- if outgraph not in graphs_out %}
+            {#- Add new dependency. #}
+{{ outgraph }}
+                {%- if graphs_out.append(outgraph) %}
+                {%- endif %}
+            {%- endif %}
+        {%- elif stackname in groups %}
+        {#- Add the group contents to the stack. #}
+{{ loop(groups[stackname]) }}
+        {%- else %}
+        {{ raise('Unknown group', stackname) }}
+        {%- endif %}
+    {%- endfor %}
+{%- endfor %}
+     """
+
+# {{ groups }}
+#
+# {{ name_graphs_out }}
+#
+
+[runtime]
+    [[root]]
+        script = rose task-run
+        [[[environment]]]
+            # Directory used for test source data.
+            TEST_SOURCES_DIR = $CYLC_SUITE_RUN_DIR/sources
+            TEST_RESULTS_DIR = $CYLC_SUITE_RUN_DIR/share/results
+            DOCSDIR = $CYLC_SUITE_RUN_DIR/share/fcm_make_ants/build/docs
+        {% if CYLC_VERSION is defined and CYLC_VERSION[0] == '8' %}
+            ROSE_SUITE_REVISION = $(jq '.revision' ${CYLC_WORKFLOW_RUN_DIR}/log/version/vcs.json -r)
+        {% else %}
+            ROSE_SUITE_REVISION = $(grep Revision ${CYLC_SUITE_DEF_PATH_ON_SUITE_HOST}/log/rose-suite-run.version | cut -d ' ' -f 2)
+        {% endif %}
+            ANTS_MODULE = ants/developer
+            PYTHONPATH_PREPEND = $CYLC_SUITE_RUN_DIR/share/fcm_make_ants/build/lib
+            # Uncomment the following line to configure the location used for temporary files.
+            # ANTS_TEMPORARY_DIR = $SCRATCH
+            # Uncomment the following line to configure the directory cartopy uses for cached files:
+            # ANTS_CARTOPY_CACHE = ${SCRATCH}/cartopy_cache
+            PYTHONDONTWRITEBYTECODE=True
+            ULIMIT_SETTING = unlimited
+        [[[events]]]
+            mail events = none
+        [[[job]]]
+            batch system = background
+            execution time limit = PT10M
+        [[[remote]]]
+            host = {{ ROSE_ORIG_HOST }}
+
+    [[LARGE]]
+        [[[environment]]]
+            ANTS_NPROCESSES = "max"
+
+    [[SMALL]]
+
+    [[install_cold]]
+        inherit = SMALL
+        post-script = """
+                      # remove any pycache files that may have transferred from the working copy
+                      cd $CYLC_SUITE_RUN_DIR/share/fcm_make_ants/build
+                      if (( $(find . | grep -E "(/__pycache__$|\.pyc$|\.pyo$)" | wc -l ) > 0 )); then
+                        find . | grep -E "(/__pycache__$|\.pyc$|\.pyo$)" | xargs rm -rf
+                      fi
+                      """
+        [[[environment]]]
+            HOST_SOURCE_ANTS_BASE={{ HOST_SOURCE_ANCIL_ANTS_BASE }}
+
+    # ##################################
+    # Land cover type fraction
+    # ##################################
+    [[LCT]]
+
+    {% for source in lct_source %}
+        [[ANCIL_LCT_PREPROC_{{source}}]]
+            inherit=LCT, LARGE
+
+        [[ancil_lct_preproc_{{source}}<split>]]
+            inherit=ANCIL_LCT_PREPROC_{{source}}
+            script = rose task-run --app-key=ancil_lct_preproc_{{source}}
+
+        [[ANCIL_LCT_{{source}}]]
+            inherit=LCT, LARGE
+
+        [[ancil_lct_{{source}}<split>]]
+            inherit=ANCIL_LCT_{{source}}
+            script = rose task-run --app-key=ancil_lct -O {{source}}
+    {% endfor %}
+
+    [[ANCIL_LCT_POSTPROC_C4]]
+        inherit=LCT, SMALL
+
+    [[ancil_lct_postproc_c4<split>]]
+        inherit=ANCIL_LCT_POSTPROC_C4
+        script = rose task-run --app-key=ancil_lct_postproc_c4
+
+    [[ancil_add_lakes]]
+        inherit=LCT, SMALL
+
+    [[ANCIL_GENERATE_MASKS]]
+        inherit=LCT, SMALL
+
+    [[ancil_generate_masks<split>]]
+        inherit=ANCIL_GENERATE_MASKS
+        script = rose task-run --app-key=ancil_generate_masks
+
+    [[MOVE_LCT_FILES]]
+        inherit=LCT, SMALL
+
+    [[move_lct_files<split>]]
+        inherit=MOVE_LCT_FILES
+        script = rose task-run --app-key=move_lct_files
+        inherit = LCT, SMALL
+
+    [[LCT_ANA]]
+        inherit = LCT
+
+    [[rose_ana_lct]]
+        inherit = LCT_ANA, SMALL
+        [[[environment]]]
+            ROSE_TASK_APP = rose_ana
+            ROSE_APP_OPT_CONF_KEYS = lct
+
+    [[rose_ana_masks]]
+        inherit = LCT_ANA, SMALL
+        [[[environment]]]
+            ROSE_TASK_APP = rose_ana
+            ROSE_APP_OPT_CONF_KEYS = masks
+
+    [[rose_ana_lct_cci_mask<split>]]
+        inherit = LCT_ANA, SMALL
+        [[[environment]]]
+            ROSE_TASK_APP = rose_ana
+            ROSE_APP_OPT_CONF_KEYS = cci_mask
+
+    [[rose_ana_lct_igbp_mask<split>]]
+        inherit = LCT_ANA, SMALL
+        [[[environment]]]
+            ROSE_TASK_APP = rose_ana
+            ROSE_APP_OPT_CONF_KEYS = igbp_mask
+
+    [[rose_ana_lct_ite_mask<split>]]
+        inherit = LCT_ANA, SMALL
+        [[[environment]]]
+            ROSE_TASK_APP = rose_ana
+            ROSE_APP_OPT_CONF_KEYS = ite_mask
+
+    # ##################################
+    # ANTS core
+    # ##################################
+    [[ANTS_CORE]]
+
+    {% for source in fill_n_merge_source %}
+    [[ANCIL_FILL_N_MERGE_{{source}}]]
+        inherit = ANTS_CORE, LARGE
+
+    [[ancil_fill_n_merge_{{source}}]]
+        inherit = ANCIL_FILL_N_MERGE_{{source}}
+        script = rose task-run --app-key=ancil_fill_n_merge -O {{source}}
+    {% endfor %}
+
+    [[rose_ana_fill_n_merge]]
+        inherit = ANTS_CORE, SMALL
+        [[[environment]]]
+            ROSE_TASK_APP = rose_ana
+            ROSE_APP_OPT_CONF_KEYS = fill_n_merge
+
+    [[ANCIL_2ANC]]
+        inherit=ANTS_CORE, LARGE
+
+    [[ancil_2anc<split>]]
+        inherit=ANCIL_2ANC
+        script = rose task-run --app-key=ancil_2anc
+
+    [[rose_ana_2anc]]
+        inherit = ANTS_CORE, SMALL
+        [[[environment]]]
+            ROSE_TASK_APP = rose_ana
+            ROSE_APP_OPT_CONF_KEYS = 2anc
+
+    # Core ants applications
+    {% for source in grid_source %}
+    [[ANCIL_GENERAL_REGRID_{{source}}]]
+        inherit=ANTS_CORE, LARGE
+
+    [[ancil_general_regrid_{{source}}<split>]]
+        inherit=ANCIL_GENERAL_REGRID_{{source}}
+        script = rose task-run --app-key=ancil_general_regrid -O {{source}}
+    {% endfor %}
+
+    [[ANCIL_GENERAL_REGRID_WITH_TIME_CONSTRAINT]]
+        inherit=ANTS_CORE, LARGE
+    [[ancil_general_regrid_with_time_constraint<split>]]
+        inherit=ANCIL_GENERAL_REGRID_WITH_TIME_CONSTRAINT
+        script = rose task-run --app-key=ancil_general_regrid_with_time_constraint
+
+    [[rose_ana_general_regrid]]
+        inherit = ANTS_CORE, SMALL
+        [[[environment]]]
+            ROSE_TASK_APP = rose_ana
+            ROSE_APP_OPT_CONF_KEYS = general_regrid
+
+    # ##################################
+    # River routing
+    # ##################################
+    [[RIVER_ROUTING]]
+
+    [[ancil_river_routing_preproc]]
+        inherit=RIVER_ROUTING, LARGE
+
+    {% for source in ['gc4', '1d_river_coupling'] %}
+    [[ancil_river_routing_{{source}}<split>]]
+        inherit=RIVER_ROUTING, LARGE
+        script = rose task-run --app-key=ancil_river_routing -O {{source}}
+    {% endfor %}
+
+    [[rose_ana_river_routing]]
+        inherit = RIVER_ROUTING, SMALL
+        [[[environment]]]
+            ROSE_TASK_APP = rose_ana
+            ROSE_APP_OPT_CONF_KEYS = river_routing
+
+    # River storage
+    [[ancil_river_storage_preproc, ancil_river_storage]]
+        inherit = RIVER_ROUTING, LARGE
+
+    [[rose_ana_river_storage]]
+        inherit = RIVER_ROUTING, SMALL
+        [[[environment]]]
+            ROSE_TASK_APP = rose_ana
+            ROSE_APP_OPT_CONF_KEYS = river_storage
+
+    # ##################################
+    # Topographic index
+    # ##################################
+    [[TOPOGRAPHIC_INDEX]]
+
+    [[ancil_topographic_index_preproc]]
+        inherit=TOPOGRAPHIC_INDEX, LARGE
+
+    [[ANCIL_TOPOGRAPHIC_INDEX]]
+        inherit=TOPOGRAPHIC_INDEX, LARGE
+
+    [[ancil_topographic_index<split>]]
+        inherit=ANCIL_TOPOGRAPHIC_INDEX
+        script = rose task-run --app-key=ancil_topographic_index
+
+    [[rose_ana_topographic_index]]
+        inherit = TOPOGRAPHIC_INDEX, SMALL
+        [[[environment]]]
+            ROSE_TASK_APP = rose_ana
+            ROSE_APP_OPT_CONF_KEYS = topographic_index
+
+    # ##################################
+    # Build Documentation
+    # ##################################
+    [[build_docs]]
+        inherit = ANTS_CORE
+        script = rose task-run --opt-conf-key=build-docs
+
+    [[linkcheck]]
+        inherit = ANTS_CORE
+        script = rose task-run --app-key=build_docs --opt-conf-key=linkcheck
+
+    # ##################################
+    # Run unittests
+    # ##################################
+    [[unittests]]
+        inherit = ANTS_CORE
+
+    # ##################################
+    # Run QA tests
+    # ##################################
+    [[black]]
+        inherit = ANTS_CORE
+    [[flake8]]
+        inherit = ANTS_CORE
+    [[isort]]
+        inherit = ANTS_CORE

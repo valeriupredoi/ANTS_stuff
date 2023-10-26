@@ -1,0 +1,38 @@
+[build-system]
+# Minimum requirements for the build system to execute, defined by PEP 518.
+requires = ['setuptools']
+
+# Defined by PEP 517.
+build-backend = 'setuptools.build_meta'
+
+# Configure isort.
+[tool.isort]
+profile = "black"  # Black compatibility for isort.
+
+# Configure pytest.
+[tool.pytest.ini_options]
+# rose_ana directory unittests are only run inside the test suite in order to
+# stay aligned with PYTHONPATH and Rose revisions used inside rose ana tasks.
+addopts = "--durations=5"
+filterwarnings = [
+    # ANTS:
+    "ignore:Cube has masked points. Filling with zeros as per UKCA convention:UserWarning",
+    "ignore:Invalid fileformat foo specified.  Saving UGrid cubes bar as UGrid format:UserWarning",
+    # PyKE:
+    "ignore:the imp module is deprecated in favour of importlib:DeprecationWarning",
+    # GDAL:
+    "ignore:gdalconst.py was placed in a namespace:DeprecationWarning",
+    # Matplotlib:
+    "ignore:Using or importing the ABCs from 'collections':DeprecationWarning",
+    # Mule:
+    "ignore:Ancillary files do not define the UM version number:UserWarning",
+    "ignore:The binary mode of fromstring is deprecated:DeprecationWarning",
+    # Dask:
+    "ignore:The `numpy.can_cast` function is not implemented by Dask:FutureWarning",
+    # NumPy:
+    "ignore:Mean of empty slice:RuntimeWarning",
+    "ignore:invalid value encountered in true_divide:RuntimeWarning",
+    # ESMF:
+    "ignore:Call to deprecated function ESMP_FieldRegridStoreFile:DeprecationWarning",
+    "ignore:Call to deprecated function ESMP_FieldSMMStore:DeprecationWarning",
+]

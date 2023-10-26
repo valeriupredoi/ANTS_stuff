@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+<cubes xmlns="urn:x-iris:cubeml-0.2">
+  <cube dtype="int32" units="unknown">
+    <coords>
+      <coord datadims="[0]">
+        <dimCoord bounds="[[-90.0, -30.0],
+		[-30.0, 30.0],
+		[30.0, 90.0]]" id="1ed16f0e" points="[-60.0, 0.0, 60.0]" shape="(3,)" standard_name="latitude" units="Unit('degree_north')" value_type="float64">
+          <geogCS earth_radius="6371229.0"/>
+        </dimCoord>
+      </coord>
+      <coord datadims="[1]">
+        <dimCoord bounds="[[-180.0, -90.0],
+		[-90.0, 0.0],
+		[0.0, 90.0],
+		[90.0, 180.0]]" circular="True" id="b52890c8" points="[-135.0, -45.0, 45.0, 135.0]" shape="(4,)" standard_name="longitude" units="Unit('degree_east')" value_type="float64">
+          <geogCS earth_radius="6371229.0"/>
+        </dimCoord>
+      </coord>
+      <coord datadims="[0, 1]">
+        <auxCoord id="b15e3a2e" points="[[1000, 1001, 1002, 1003],
+		[1004, 1005, 1006, 1007],
+		[1008, 1009, 1010, 1011]]" shape="(3, 4)" standard_name="surface_altitude" units="Unit('m')" value_type="int32"/>
+      </coord>
+    </coords>
+    <cellMethods/>
+    <data dtype="int32" shape="(3, 4)" state="deferred"/>
+  </cube>
+</cubes>

@@ -1,0 +1,24 @@
+{%- if show_headings %}
+{{- basename | heading }}
+
+{% endif -%}
+
+.. _{{ qualname }}.py:
+
+.. automodule:: {{ qualname }}
+{%- for option in automodule_options %}
+   :{{ option }}:
+{%- endfor %}
+
+
+   CLI usage information
+   ^^^^^^^^^^^^^^^^^^^^^
+
+   .. argparse::
+      :filename: ../bin/{{ qualname }}.py
+      :func: _get_parser
+      :prog: {{ qualname }}.py
+      :nodescription:
+
+   API information
+   ^^^^^^^^^^^^^^^^^^^^^

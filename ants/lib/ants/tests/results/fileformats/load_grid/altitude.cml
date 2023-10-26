@@ -1,0 +1,112 @@
+<?xml version="1.0" ?>
+<cubes xmlns="urn:x-iris:cubeml-0.2">
+  <cube dtype="int32" units="unknown">
+    <coords>
+      <coord datadims="[0, 1, 2]">
+        <auxCoord bounds="[[[[100.25, 300.75],
+		  [100.35, 301.05],
+		  [100.45, 301.35],
+		  [100.55, 301.65]],
+
+		 [[100.65, 301.95],
+		  [100.75, 302.25],
+		  [100.85, 302.55],
+		  [100.95, 302.85]],
+
+		 [[101.05, 303.15],
+		  [101.15, 303.45],
+		  [101.25, 303.75],
+		  [101.35, 304.05]]],
+
+
+		[[[300.75, 501.25],
+		  [301.05, 501.75],
+		  [301.35, 502.25],
+		  [301.65, 502.75]],
+
+		 [[301.95, 503.25],
+		  [302.25, 503.75],
+		  [302.55, 504.25],
+		  [302.85, 504.75]],
+
+		 [[303.15, 505.25],
+		  [303.45, 505.75],
+		  [303.75, 506.25],
+		  [304.05, 506.75]]],
+
+
+		[[[501.25, 701.75],
+		  [501.75, 702.45],
+		  [502.25, 703.15],
+		  [502.75, 703.85]],
+
+		 [[503.25, 704.55],
+		  [503.75, 705.25],
+		  [504.25, 705.95],
+		  [504.75, 706.65]],
+
+		 [[505.25, 707.35],
+		  [505.75, 708.05],
+		  [506.25, 708.75],
+		  [506.75, 709.45]]]]" id="9041e969" points="[[[200.5, 200.7, 200.9, 201.1],
+		 [201.3, 201.5, 201.7, 201.9],
+		 [202.1, 202.3, 202.5, 202.7]],
+
+		[[401.0, 401.4, 401.8, 402.2],
+		 [402.6, 403.0, 403.4, 403.8],
+		 [404.2, 404.6, 405.0, 405.4]],
+
+		[[601.5, 602.1, 602.7, 603.3],
+		 [603.9, 604.5, 605.1, 605.7],
+		 [606.3, 606.9, 607.5, 608.1]]]" shape="(3, 3, 4)" standard_name="altitude" units="Unit('m')" value_type="float64">
+          <attributes>
+            <attribute name="positive" value="up"/>
+          </attributes>
+        </auxCoord>
+      </coord>
+      <coord datadims="[1]">
+        <dimCoord bounds="[[-90.0, -30.0],
+		[-30.0, 30.0],
+		[30.0, 90.0]]" id="1ed16f0e" points="[-60.0, 0.0, 60.0]" shape="(3,)" standard_name="latitude" units="Unit('degree_north')" value_type="float64">
+          <geogCS earth_radius="6371229.0"/>
+        </dimCoord>
+      </coord>
+      <coord datadims="[0]">
+        <auxCoord bounds="[[0.25, 0.75],
+		[0.75, 1.25],
+		[1.25, 1.75]]" id="fb105c19" long_name="level_height" points="[0.5, 1.0, 1.5]" shape="(3,)" units="Unit('m')" value_type="float64">
+          <attributes>
+            <attribute name="positive" value="up"/>
+          </attributes>
+        </auxCoord>
+      </coord>
+      <coord datadims="[2]">
+        <dimCoord bounds="[[-180.0, -90.0],
+		[-90.0, 0.0],
+		[0.0, 90.0],
+		[90.0, 180.0]]" circular="True" id="b52890c8" points="[-135.0, -45.0, 45.0, 135.0]" shape="(4,)" standard_name="longitude" units="Unit('degree_east')" value_type="float64">
+          <geogCS earth_radius="6371229.0"/>
+        </dimCoord>
+      </coord>
+      <coord datadims="[0]">
+        <dimCoord id="38fd0305" points="[1, 2, 3]" shape="(3,)" standard_name="model_level_number" units="Unit('1')" value_type="int64">
+          <attributes>
+            <attribute name="positive" value="up"/>
+          </attributes>
+        </dimCoord>
+      </coord>
+      <coord datadims="[0]">
+        <auxCoord bounds="[[0.1, 0.3],
+		[0.3, 0.5],
+		[0.5, 0.7]]" id="a5c170db" long_name="sigma" points="[0.2, 0.4, 0.6]" shape="(3,)" units="Unit('1')" value_type="float64"/>
+      </coord>
+      <coord datadims="[1, 2]">
+        <auxCoord id="b15e3a2e" points="[[1000, 1001, 1002, 1003],
+		[1004, 1005, 1006, 1007],
+		[1008, 1009, 1010, 1011]]" shape="(3, 4)" standard_name="surface_altitude" units="Unit('m')" value_type="int32"/>
+      </coord>
+    </coords>
+    <cellMethods/>
+    <data dtype="int32" shape="(3, 3, 4)" state="deferred"/>
+  </cube>
+</cubes>
