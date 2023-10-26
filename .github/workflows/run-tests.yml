@@ -26,7 +26,7 @@ jobs:
           fetch-depth: 0
       - uses: conda-incubator/setup-miniconda@v2
         with:
-          activate-environment: activestorage
+          activate-environment: ants-scripts
           environment-file: scripts/ants_environment.yml
           python-version: ${{ matrix.python-version }}
           miniforge-version: "latest"
@@ -41,4 +41,4 @@ jobs:
           cd scripts
           pip install -e .
       - name: Test NitrogenDeposition
-        run: pytest NitrogenDeposition
+        run: pytest scripts/NitrogenDeposition
