@@ -36,7 +36,11 @@ jobs:
         run: |
           conda --version
           python -V
-      - name: Install scripts
+      - name: Install ANTS
+        run: |
+          cd ants
+          pip install -e .
+      - name: Install ANCIL scripts
         run: |
           cd scripts
           pip install -e .
