@@ -10,7 +10,11 @@ import ants.decomposition as decomp
 import ants.fileformats
 import ants.io.save as save
 import cf_units
-import cli as cli
+
+# VP: deprecated, should use argparse if at all
+# import cli_nitro as cli
+import argparse
+
 import iris
 import iris.analysis
 import iris.fileformats
