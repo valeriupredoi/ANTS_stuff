@@ -38,4 +38,6 @@ pytest >
 2to3-3.7 NitrogenDeposition_py2/* -o NitrogenDeposition -n -w
 ```
 
+### Package NitrogenDeposition
 
+``NitrogenDeposition`` is now a barebones package installable with ``pip install -e .``
