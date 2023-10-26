@@ -27,12 +27,18 @@ jobs:
       - uses: conda-incubator/setup-miniconda@v2
         with:
           activate-environment: activestorage
-          environment-file: ants_environment.yml
+          environment-file: scripts/ants_environment.yml
           python-version: ${{ matrix.python-version }}
           miniforge-version: "latest"
           miniforge-variant: Mambaforge
           use-mamba: true
-      - run: conda --version
-      - run: python -V
-      - run: pip install -e .
-      - run: pytest
+      - name: Gather basic env information
+        run: |
+          conda --version
+          python -V
+      - name: Install scripts
+        run: |
+          cd scripts
+          pip install -e .
+      - name: Test NitrogenDeposition
+        run: pytest NitrogenDeposition
