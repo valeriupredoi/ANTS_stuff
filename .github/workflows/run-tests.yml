@@ -46,3 +46,5 @@ jobs:
           pip install -e .
       - name: Test ANCIL scripts[NitrogenDeposition]
         run: pytest scripts/NitrogenDeposition
+      - name: Test ANCIL scripts[GreenhouseGases]
+        run: pytest scripts/GreenhouseGases
