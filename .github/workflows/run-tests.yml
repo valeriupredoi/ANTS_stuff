@@ -44,5 +44,5 @@ jobs:
         run: |
           cd scripts
           pip install -e .
-      - name: Test NitrogenDeposition
+      - name: Test ANCIL scripts[NitrogenDeposition]
         run: pytest scripts/NitrogenDeposition
