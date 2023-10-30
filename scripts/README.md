@@ -36,8 +36,15 @@ pytest >
 
 ```
 2to3-3.7 NitrogenDeposition_py2/* -o NitrogenDeposition -n -w
+2to3-3.7 GreenhouseGases_py2/* -o GreenhouseGases -n -w
 ```
+
+of course, subsequently removing the ``*_py2/`` dirs since they are surplus to needs here.
 
 ### Package NitrogenDeposition
 
 ``NitrogenDeposition`` is now a barebones package installable with ``pip install -e .``
+
+### Package GreenhouseGases
+
+``GreenhouseGases`` is now a barebones package installable with ``pip install -e .``
