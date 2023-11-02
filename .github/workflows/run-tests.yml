@@ -44,6 +44,12 @@ jobs:
         run: |
           cd scripts
           pip install -e .
+      - name: Test ANCIL commands[NitrogenDeposition]
+        run: |
+          scripts/NitrogenDeposition/cmip6_ndep_jasmin_vn21.py --help
+          scripts/NitrogenDeposition/cmip6_ndep_jasmin_vn23_ssp585.py --help
+          scripts/NitrogenDeposition/cmip6_ndep_jasmin_vn25_past_and_future.py --help
+          scripts/NitrogenDeposition/cmip6_ndep_jasmin_vn26_past_and_future.py  --help
       - name: Test ANCIL scripts[NitrogenDeposition]
         run: pytest scripts/NitrogenDeposition
       - name: Test ANCIL scripts[GreenhouseGases]
