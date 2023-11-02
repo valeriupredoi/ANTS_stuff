@@ -52,5 +52,9 @@ jobs:
           scripts/NitrogenDeposition/cmip6_ndep_jasmin_vn26_past_and_future.py  --help
       - name: Test ANCIL scripts[NitrogenDeposition]
         run: pytest scripts/NitrogenDeposition
+      - name: Test ANCIL commands[GreenhouseGases]
+        run: |
+          scripts/GreenhouseGases/GHG_UKCA.py --help
+          scripts/GreenhouseGases/GHG_radiation.py --help
       - name: Test ANCIL scripts[GreenhouseGases]
         run: pytest scripts/GreenhouseGases
