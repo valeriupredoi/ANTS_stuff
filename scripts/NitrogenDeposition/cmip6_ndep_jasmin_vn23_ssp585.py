@@ -37,23 +37,23 @@ colour = ["green", "blue", "orange", "red", "purple", "black"]
 # to allow this script to be run from the command line. Example calls below and the output showing the
 # resulting files created.
 #
-# $ python2.7 cmip6_ndep_jasmin_vn21.py -d './TESTDIR_N96E/' -r 'n96e' -o './TESTDIR_N96E/n96e_ancillary_1914_1918' -n 'Ndep' --begin 1914 --end 1918
+# $ python3 cmip6_ndep_jasmin_vn21.py -d './TESTDIR_N96E/' -r 'n96e' -o './TESTDIR_N96E/n96e_ancillary_1914_1918' -n 'Ndep' --begin 1914 --end 1918
 # Made ./TESTDIR_N96E/n96e_ancillary_1914_1918.anc
 # Made ./TESTDIR_N96E/n96e_ancillary_1914_1918.nc
 #
-# $ python2.7 cmip6_ndep_jasmin_vn21.py -d './TESTDIR_N96E/' -r 'n96e' -o './TESTDIR_N96E/n96e_ancillary_1850_clim' -n 'Ndep' --begin 1850
+# $ python3 cmip6_ndep_jasmin_vn21.py -d './TESTDIR_N96E/' -r 'n96e' -o './TESTDIR_N96E/n96e_ancillary_1850_clim' -n 'Ndep' --begin 1850
 # Made ./TESTDIR_N96E/n96e_ancillary_1850_clim.anc
 # Made ./TESTDIR_N96E/n96e_ancillary_1850_clim.nc
 #
-# $ python2.7 cmip6_ndep_jasmin_vn21.py -d './TESTDIR_N96E/' -r 'n96e' -o './TESTDIR_N96E/n96e_ancillary_1849_2015' -n 'Ndep' --begin 1850 --end 2014 --appendheadtail 1
+# $ python3 cmip6_ndep_jasmin_vn21.py -d './TESTDIR_N96E/' -r 'n96e' -o './TESTDIR_N96E/n96e_ancillary_1849_2015' -n 'Ndep' --begin 1850 --end 2014 --appendheadtail 1
 # Made ./TESTDIR_N96E/n96e_ancillary_1849_2015.anc
 # Made ./TESTDIR_N96E/n96e_ancillary_1849_2015.nc
 #
-# $ python2.7 cmip6_ndep_jasmin_vn21.py -d './TESTDIR_N96E/' -r 'n96e' -o './TESTDIR_N96E/n96e_ancillary_1850_2014' -n 'Ndep' --begin 1850 --end 2014
+# $ python3 cmip6_ndep_jasmin_vn21.py -d './TESTDIR_N96E/' -r 'n96e' -o './TESTDIR_N96E/n96e_ancillary_1850_2014' -n 'Ndep' --begin 1850 --end 2014
 # Made ./TESTDIR_N96E/n96e_ancillary_1850_2014.anc
 # Made ./TESTDIR_N96E/n96e_ancillary_1850_2014.nc
 #
-# python2.7 cmip6_ndep_jasmin_vn22_ssp585.py -s '/TESTDIR_N96E_SSP585/drynhx_input4MIPs_surfaceFluxes_ScenarioMIP_NCAR-CCMI-ssp585-1-0_gn_201501-209912.nc' './TESTDIR_N96E_SSP585/drynoy_input4MIPs_surfaceFluxes_ScenarioMIP_NCAR-CCMI-ssp585-1-0_gn_201501-209912.nc' './TESTDIR_N96E_SSP585/wetnhx_input4MIPs_surfaceFluxes_ScenarioMIP_NCAR-CCMI-ssp585-1-0_gn_201501-209912.nc' './TESTDIR_N96E_SSP585/wetnoy_input4MIPs_surfaceFluxes_ScenarioMIP_NCAR-CCMI-ssp585-2-0_gn_201501-209912.nc' --resolution  './TESTDIR_N96E_SSP585/qrparm.mask_n96e_eorca1_v2.2x_ESMF' -o './TESTDIR_N96E_SSP585/n96e_ancillary_2015_2100_v2' -n 'Ndep' --begin 2015 --end 2100 -a true
+# python3 cmip6_ndep_jasmin_vn22_ssp585.py -s '/TESTDIR_N96E_SSP585/drynhx_input4MIPs_surfaceFluxes_ScenarioMIP_NCAR-CCMI-ssp585-1-0_gn_201501-209912.nc' './TESTDIR_N96E_SSP585/drynoy_input4MIPs_surfaceFluxes_ScenarioMIP_NCAR-CCMI-ssp585-1-0_gn_201501-209912.nc' './TESTDIR_N96E_SSP585/wetnhx_input4MIPs_surfaceFluxes_ScenarioMIP_NCAR-CCMI-ssp585-1-0_gn_201501-209912.nc' './TESTDIR_N96E_SSP585/wetnoy_input4MIPs_surfaceFluxes_ScenarioMIP_NCAR-CCMI-ssp585-2-0_gn_201501-209912.nc' --resolution  './TESTDIR_N96E_SSP585/qrparm.mask_n96e_eorca1_v2.2x_ESMF' -o './TESTDIR_N96E_SSP585/n96e_ancillary_2015_2100_v2' -n 'Ndep' --begin 2015 --end 2100 -a true
 #
 
 # ---------------------------------------------------------------------------------

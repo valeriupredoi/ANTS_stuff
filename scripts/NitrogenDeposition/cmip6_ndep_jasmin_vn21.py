@@ -37,19 +37,19 @@ colour = ["green", "blue", "orange", "red", "purple", "black"]
 # to allow this script to be run from the command line. Example calls below and the output showing the
 # resulting files created.
 #
-# $ python2.7 cmip6_ndep_jasmin_vn21.py -d './TESTDIR_N96E/' -r 'n96e' -o './TESTDIR_N96E/n96e_ancillary_1914_1918' -n 'Ndep' --begin 1914 --end 1918
+# $ python3 cmip6_ndep_jasmin_vn21.py -d './TESTDIR_N96E/' -r 'n96e' -o './TESTDIR_N96E/n96e_ancillary_1914_1918' -n 'Ndep' --begin 1914 --end 1918
 # Made ./TESTDIR_N96E/n96e_ancillary_1914_1918.anc
 # Made ./TESTDIR_N96E/n96e_ancillary_1914_1918.nc
 #
-# $ python2.7 cmip6_ndep_jasmin_vn21.py -d './TESTDIR_N96E/' -r 'n96e' -o './TESTDIR_N96E/n96e_ancillary_1850_clim' -n 'Ndep' --begin 1850
+# $ python3 cmip6_ndep_jasmin_vn21.py -d './TESTDIR_N96E/' -r 'n96e' -o './TESTDIR_N96E/n96e_ancillary_1850_clim' -n 'Ndep' --begin 1850
 # Made ./TESTDIR_N96E/n96e_ancillary_1850_clim.anc
 # Made ./TESTDIR_N96E/n96e_ancillary_1850_clim.nc
 #
-# $ python2.7 cmip6_ndep_jasmin_vn21.py -d './TESTDIR_N96E/' -r 'n96e' -o './TESTDIR_N96E/n96e_ancillary_1849_2015' -n 'Ndep' --begin 1850 --end 2014 --appendheadtail 1
+# $ python3 cmip6_ndep_jasmin_vn21.py -d './TESTDIR_N96E/' -r 'n96e' -o './TESTDIR_N96E/n96e_ancillary_1849_2015' -n 'Ndep' --begin 1850 --end 2014 --appendheadtail 1
 # Made ./TESTDIR_N96E/n96e_ancillary_1849_2015.anc
 # Made ./TESTDIR_N96E/n96e_ancillary_1849_2015.nc
 #
-# $ python2.7 cmip6_ndep_jasmin_vn21.py -d './TESTDIR_N96E/' -r 'n96e' -o './TESTDIR_N96E/n96e_ancillary_1850_2014' -n 'Ndep' --begin 1850 --end 2014
+# $ python3 cmip6_ndep_jasmin_vn21.py -d './TESTDIR_N96E/' -r 'n96e' -o './TESTDIR_N96E/n96e_ancillary_1850_2014' -n 'Ndep' --begin 1850 --end 2014
 # Made ./TESTDIR_N96E/n96e_ancillary_1850_2014.anc
 # Made ./TESTDIR_N96E/n96e_ancillary_1850_2014.nc
 

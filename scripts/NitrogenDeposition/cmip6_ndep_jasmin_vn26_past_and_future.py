@@ -36,14 +36,14 @@ colour = ["green", "blue", "orange", "red", "purple", "black"]
 # THese two command created historical ancillaries (a few years in lenght) whcih look OK and give same data as the (11/1895 looked at):
 # /data/d04/hadsl/ANCILS/UKESM1/NITROGEN_DEPOSITION/n96e_rev5199/ndep_input4MIPs_surfaceFluxes_CMIP_NCAR-CCMI-2-0_gn_184901-201512.n96e.anc.nc
 #
-# python2.7 cmip6_ndep_jasmin_vn26_past_and_future.py -s './TESTDIR_N96E/drynhx_input4MIPs_surfaceFluxes_CMIP_NCAR-CCMI-2-0_gn_185001-201412.nc'
+# python3 cmip6_ndep_jasmin_vn26_past_and_future.py -s './TESTDIR_N96E/drynhx_input4MIPs_surfaceFluxes_CMIP_NCAR-CCMI-2-0_gn_185001-201412.nc'
 #   './TESTDIR_N96E/drynoy_input4MIPs_surfaceFluxes_CMIP_NCAR-CCMI-2-0_gn_185001-201412.nc'
 #   './TESTDIR_N96E/wetnhx_input4MIPs_surfaceFluxes_CMIP_NCAR-CCMI-2-0_gn_185001-201412.nc'
 #   './TESTDIR_N96E/wetnoy_input4MIPs_surfaceFluxes_CMIP_NCAR-CCMI-2-0_gn_185001-201412.nc'
 # --resolution  './TESTDIR_N96E_SSP585/qrparm.mask_n96e_eorca1_v2.2x_ESMF'
 # -o './TESTDIR_JAN2019/Ndep_n96e_1893_1895_appended' -n 'Ndep' --begin 1893 --end 1895 -a true
 #
-# python2.7 cmip6_ndep_jasmin_vn26_past_and_future.py -s './TESTDIR_N96E/drynhx_input4MIPs_surfaceFluxes_CMIP_NCAR-CCMI-2-0_gn_185001-201412.nc'
+# python3 cmip6_ndep_jasmin_vn26_past_and_future.py -s './TESTDIR_N96E/drynhx_input4MIPs_surfaceFluxes_CMIP_NCAR-CCMI-2-0_gn_185001-201412.nc'
 #   './TESTDIR_N96E/drynoy_input4MIPs_surfaceFluxes_CMIP_NCAR-CCMI-2-0_gn_185001-201412.nc'
 #   './TESTDIR_N96E/wetnhx_input4MIPs_surfaceFluxes_CMIP_NCAR-CCMI-2-0_gn_185001-201412.nc'
 #   './TESTDIR_N96E/wetnoy_input4MIPs_surfaceFluxes_CMIP_NCAR-CCMI-2-0_gn_185001-201412.nc'
@@ -53,14 +53,14 @@ colour = ["green", "blue", "orange", "red", "purple", "black"]
 #
 #
 # These two commands produced ancillaries which were correct and had the same data (7/2061 looked at) as the original SSP126 ancillary created in December:
-# python2.7 cmip6_ndep_jasmin_vn26_past_and_future.py -s './TESTDIR_N96E_SSP126/drynhx_input4MIPs_surfaceFluxes_ScenarioMIP_NCAR-CCMI-ssp126-1-0_gn_201501-209912.nc'
+# python3 cmip6_ndep_jasmin_vn26_past_and_future.py -s './TESTDIR_N96E_SSP126/drynhx_input4MIPs_surfaceFluxes_ScenarioMIP_NCAR-CCMI-ssp126-1-0_gn_201501-209912.nc'
 #   './TESTDIR_N96E_SSP126/drynoy_input4MIPs_surfaceFluxes_ScenarioMIP_NCAR-CCMI-ssp126-1-0_gn_201501-209912.nc'
 #   './TESTDIR_N96E_SSP126/wetnhx_input4MIPs_surfaceFluxes_ScenarioMIP_NCAR-CCMI-ssp126-1-0_gn_201501-209912.nc'
 #   './TESTDIR_N96E_SSP126/wetnoy_input4MIPs_surfaceFluxes_ScenarioMIP_NCAR-CCMI-ssp126-2-0_gn_201501-209912.nc'
 #   --resolution  './TESTDIR_N96E_SSP126/qrparm.mask_n96e_eorca1_v2.2x_ESMF' -o './TESTDIR_JAN2019/Ndep_n96e_ssp126_2060_2062_appended'
 #   -n 'Ndep' --begin 2060 --end 2062 -a true
 #
-# python2.7 cmip6_ndep_jasmin_vn26_past_and_future.py -s './TESTDIR_N96E_SSP126/drynhx_input4MIPs_surfaceFluxes_ScenarioMIP_NCAR-CCMI-ssp126-1-0_gn_201501-209912.nc'
+# python3 cmip6_ndep_jasmin_vn26_past_and_future.py -s './TESTDIR_N96E_SSP126/drynhx_input4MIPs_surfaceFluxes_ScenarioMIP_NCAR-CCMI-ssp126-1-0_gn_201501-209912.nc'
 #   './TESTDIR_N96E_SSP126/drynoy_input4MIPs_surfaceFluxes_ScenarioMIP_NCAR-CCMI-ssp126-1-0_gn_201501-209912.nc'
 #   './TESTDIR_N96E_SSP126/wetnhx_input4MIPs_surfaceFluxes_ScenarioMIP_NCAR-CCMI-ssp126-1-0_gn_201501-209912.nc'
 #   './TESTDIR_N96E_SSP126/wetnoy_input4MIPs_surfaceFluxes_ScenarioMIP_NCAR-CCMI-ssp126-2-0_gn_201501-209912.nc'
