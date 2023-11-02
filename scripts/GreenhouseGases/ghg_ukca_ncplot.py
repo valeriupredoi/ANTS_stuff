@@ -1,4 +1,4 @@
-#!/usr/bin/python2.7
+#!/usr/bin/env python
 """
 plot the original source files
 against what GHG_UKCA has read in and processed: trgas_ssp370_2015_2200.dat 
