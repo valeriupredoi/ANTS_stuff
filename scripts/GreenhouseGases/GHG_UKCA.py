@@ -1,4 +1,4 @@
-#!/usr/bin/python2.7
+#!/usr/bin/env python
 """
 reformat the CMIP6 GHG data suitable for UKCA
 use the RCP ASCII format and mole fractions
@@ -70,8 +70,6 @@ import glob
 import os
 from warnings import warn
 
-# VP: deprecated, should use argparse if at all
-# import cli
 import argparse
 
 import numpy as np
@@ -191,7 +189,7 @@ def ukcaancil(start, end, source_files, output_file, project, data_version):
             fname = glob.glob(os.path.join(source_files[0], varname_mod, PART3, "*.nc"))
         elif project == "scenarioMIP":
             fname = glob.glob(os.path.join(source_files[0], varname, PART3, "*.nc"))
-        print((fname[0]), end=' ')
+        print(fname[0])
         if len(fname) != 1:
             raise Exception("Either too many or no input nc files " + gas["name"])
         #   add some exceptions
@@ -280,7 +278,9 @@ def _process(start, end, source_files, output_file, project, data_version):
 
 
 if __name__ == "__main__":
-    arg_parser = cli.get_arg_parser(__doc__)
+    arg_parser = argparse.ArgumentParser(
+        description=__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter)
     args = arg_parser.parse_args()
     _process(
         args.begin, args.end, args.sources, args.output, args.project, args.data_version
@@ -294,8 +294,6 @@ Example usages:
 $ ./example.py -h
 
 usage: example.py [-h] [-e END] [-n NAME] -b BEGIN -o OUTPUT -s SOURCES [SOURCES ...] [-f FOO]
-
-Module to demonstrate usage of cli.py.
 
 This module docstring will be passed to the ArgumentParser to provide usage
 instructions for the application.  Notice how the help text is populated with
