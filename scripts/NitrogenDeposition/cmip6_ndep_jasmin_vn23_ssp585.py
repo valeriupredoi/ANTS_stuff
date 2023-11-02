@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """
 Create the ancillaries needed to represent nitrogen deposition in UKESM1 for the CMIP6/DEC historical simulation 
 00447    0 NITROGEN DEPOSITION (kgN/m2/s)
@@ -11,8 +12,6 @@ import ants.fileformats
 import ants.io.save as save
 import cf_units
 
-# VP: deprecated, should use argparse if at all
-# import cli_nitro as cli
 import argparse
 
 import iris
@@ -109,7 +108,9 @@ def load_cube_clim_noclim(filenames, clim):
 # def main():
 if __name__ == "__main__":
     # __doc__ is the module docstring.
-    arg_parser = cli.get_arg_parser(__doc__)
+    arg_parser = argparse.ArgumentParser(
+        description=__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter)
 
     # Add resolution as an argument
     arg_parser.add_argument(
