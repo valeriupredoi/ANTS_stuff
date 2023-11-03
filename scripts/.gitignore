@@ -1,4 +1,5 @@
 NitrogenDeposition.egg-info/
 NitrogenDeposition/__pycache__
 GreenhouseGases/__pycache__
+GreenhouseGases/tests/unit/__pycache__i
 NitrogenDeposition/tests/unit/__pycache__
