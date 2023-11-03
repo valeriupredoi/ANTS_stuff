@@ -48,3 +48,8 @@ of course, subsequently removing the ``*_py2/`` dirs since they are surplus to n
 ### Package GreenhouseGases
 
 ``GreenhouseGases`` is now a barebones package installable with ``pip install -e .``
+
+### Tests
+
+Tests are added - basic package, import, and command line run-levels tests; no integration/end-to-end
+tests so far.
