@@ -20,14 +20,15 @@ from NitrogenDeposition import (
     cmip6_ndep_jasmin_vn23_ssp585,
     cmip6_ndep_jasmin_vn25_past_and_future,
     cmip6_ndep_jasmin_vn26_past_and_future,
-    cmip6_ndep
 )
 
 from NitrogenDeposition.cmip6_ndep_jasmin_vn21 import main as vn21_main
-from NitrogenDeposition import cmip6_ndep_jasmin_vn23_ssp585
-from NitrogenDeposition import cmip6_ndep_jasmin_vn25_past_and_future
-from NitrogenDeposition import cmip6_ndep_jasmin_vn26_past_and_future
-from NitrogenDeposition import cmip6_ndep
+
+# use these imports to test the executables (when/if they become executables)
+# from NitrogenDeposition.cmip6_ndep_jasmin_vn23_ssp585 import main as vn23_main
+# from NitrogenDeposition.cmip6_ndep_jasmin_vn25_past_and_future import main as vn25_main
+# from NitrogenDeposition.cmip6_ndep_jasmin_vn26_past_and_future import main as vn26_main
+# from NitrogenDeposition.cmip6_ndep import main as ndep_main
 
 
 def wrapper(f):
@@ -67,19 +68,63 @@ def capture_sys_output():
         sys.stdout, sys.stderr = current_out, current_err
 
 
-@patch('NitrogenDeposition.cmip6_ndep_jasmin_vn21.main', new=wrapper(cmip6_ndep_jasmin_vn21))
+@patch('NitrogenDeposition.cmip6_ndep_jasmin_vn21.main',
+       new=wrapper(cmip6_ndep_jasmin_vn21))
 def test_run_cmip6_ndep_jasmin_vn21_command():
     """Test run command."""
     executable = str(Path(cmip6_ndep_jasmin_vn21.__file__))
     print(f"Path to executable: {executable}")
 
     # test run as executable (executable functionality not yet set up!)
+    # this can be set up in the main package via a list og console entries
     with arguments(executable, '--help'):
         cmip6_ndep_jasmin_vn21.main()
     with arguments(executable, '--cow'):
         cmip6_ndep_jasmin_vn21.main()
 
     # test run from command line
+    cmd = [executable, '--help']
+    process = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+    stdoutdata, stderrdata = process.communicate()
+    assert process.returncode == 0
+    cmd = [executable, '--cow']
+    process = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+    stdoutdata, stderrdata = process.communicate()
+    assert process.returncode == 2
+
+
+def test_run_cmip6_ndep_jasmin_vn23_ssp585_command():
+    """Test run command."""
+    executable = str(Path(cmip6_ndep_jasmin_vn23_ssp585.__file__))
+    print(f"Path to executable: {executable}")
+    cmd = [executable, '--help']
+    process = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+    stdoutdata, stderrdata = process.communicate()
+    assert process.returncode == 0
+    cmd = [executable, '--cow']
+    process = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+    stdoutdata, stderrdata = process.communicate()
+    assert process.returncode == 2
+
+
+def test_run_cmip6_ndep_jasmin_vn25_past_and_future_command():
+    """Test run command."""
+    executable = str(Path(cmip6_ndep_jasmin_vn25_past_and_future.__file__))
+    print(f"Path to executable: {executable}")
+    cmd = [executable, '--help']
+    process = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+    stdoutdata, stderrdata = process.communicate()
+    assert process.returncode == 0
+    cmd = [executable, '--cow']
+    process = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+    stdoutdata, stderrdata = process.communicate()
+    assert process.returncode == 2
+
+
+def test_run_cmip6_ndep_jasmin_vn26_past_and_future_command():
+    """Test run command."""
+    executable = str(Path(cmip6_ndep_jasmin_vn26_past_and_future.__file__))
+    print(f"Path to executable: {executable}")
     cmd = [executable, '--help']
     process = subprocess.Popen(cmd, stdout=subprocess.PIPE)
     stdoutdata, stderrdata = process.communicate()
