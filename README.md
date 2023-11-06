@@ -17,6 +17,16 @@ Locations
 - ANTS contrib in `ANTS_contrib`
 - ANTS code base (trunk) in `ANTS_trunk`
 
+FCM adventures (fun with FCM, because we're in 1997 back again!)
+----------------------------------------------------------------
+
+- To get ``fcm`` not to pick up your ``$whoami`` or system users, check ``./lib/FCM/System/CM/SVN.pm::sub _get_username()`` and make it return whatever.
+- create a branch, mind the naming convention with XXX ticket number, invoked with ``-k`` option: ``fcm bc -k 2223 2223_CMIP7_ancil-scripts_part1``
+- put stuff in where one needs committing
+- remember to add ``fcm add [whatever]`` and switch branches ``fcm switch https://code.metoffice.gov.uk/svn/ancil/contrib/branches/dev/valeriupredoi/r14981_2223_CMIP7_ancil-scripts_part1`` before committing with ``fcm commit [whatever]``
+- branch info avail with ``fcm binfo``, or git-like ``fcm status``
+
+
 Python status
 -------------
 
