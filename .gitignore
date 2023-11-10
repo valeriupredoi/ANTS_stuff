@@ -2,3 +2,6 @@
 GreenhouseGases/GreenhouseGases_CMIP7.egg-info
 GreenhouseGases/greenhousegases/__pycache__
 GreenhouseGases/tests/unit/__pycache__
+NitrogenDeposition/NitrogenDeposition_CMIP7.egg-info
+NitrogenDeposition/nitrogendeposition/__pycache__
+NitrogenDeposition/tests/unit/__pycache__
