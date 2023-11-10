@@ -4,14 +4,14 @@ Includes a context manager to temporarily modify sys.argv
 requirement: Python 3.7
 """
 import subprocess
-import contextlib
-import copy
-import functools
-import sys
+# import contextlib
+# import copy
+# import functools
+# import sys
 
 from pathlib import Path
-from unittest.mock import patch
-from io import StringIO
+# from unittest.mock import patch
+# from io import StringIO
 
 import pytest
 
