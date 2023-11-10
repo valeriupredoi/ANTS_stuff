@@ -25,7 +25,7 @@ def wrapper(f):
     @functools.wraps(f)
     def empty(*args, **kwargs):  # noqa
         if kwargs:
-            raise ValueError(f'Parameters not supported: {kwargs}')
+            raise ValueError(f"Parameters not supported: {kwargs}")
         return True
 
     return empty
@@ -42,8 +42,8 @@ def arguments(*args):
 
 def test_setargs():
     original = copy.deepcopy(sys.argv)
-    with arguments('testing', 'working', 'with', 'sys.argv'):
-        assert sys.argv == ['testing', 'working', 'with', 'sys.argv']
+    with arguments("testing", "working", "with", "sys.argv"):
+        assert sys.argv == ["testing", "working", "with", "sys.argv"]
     assert sys.argv == original
 
 
@@ -58,8 +58,10 @@ def capture_sys_output():
         sys.stdout, sys.stderr = current_out, current_err
 
 
-@patch('nitrogendeposition.cmip6_ndep_jasmin_vn21.main',
-       new=wrapper(cmip6_ndep_jasmin_vn21))
+@patch(
+    "nitrogendeposition.cmip6_ndep_jasmin_vn21.main",
+    new=wrapper(cmip6_ndep_jasmin_vn21),
+)
 def test_run_cmip6_ndep_jasmin_vn21_command():
     """Test run command."""
     executable = str(Path(cmip6_ndep_jasmin_vn21.__file__))
@@ -67,17 +69,17 @@ def test_run_cmip6_ndep_jasmin_vn21_command():
 
     # test run as executable (executable functionality not yet set up!)
     # this can be set up in the main package via a list og console entries
-    with arguments(executable, '--help'):
+    with arguments(executable, "--help"):
         cmip6_ndep_jasmin_vn21.main()
-    with arguments(executable, '--cow'):
+    with arguments(executable, "--cow"):
         cmip6_ndep_jasmin_vn21.main()
 
     # test run from command line
-    cmd = [executable, '--help']
+    cmd = [executable, "--help"]
     process = subprocess.Popen(cmd, stdout=subprocess.PIPE)
     stdoutdata, stderrdata = process.communicate()
     assert process.returncode == 0
-    cmd = [executable, '--cow']
+    cmd = [executable, "--cow"]
     process = subprocess.Popen(cmd, stdout=subprocess.PIPE)
     stdoutdata, stderrdata = process.communicate()
     assert process.returncode == 2
@@ -87,11 +89,11 @@ def test_run_cmip6_ndep_jasmin_vn23_ssp585_command():
     """Test run command."""
     executable = str(Path(cmip6_ndep_jasmin_vn23_ssp585.__file__))
     print(f"Path to executable: {executable}")
-    cmd = [executable, '--help']
+    cmd = [executable, "--help"]
     process = subprocess.Popen(cmd, stdout=subprocess.PIPE)
     stdoutdata, stderrdata = process.communicate()
     assert process.returncode == 0
-    cmd = [executable, '--cow']
+    cmd = [executable, "--cow"]
     process = subprocess.Popen(cmd, stdout=subprocess.PIPE)
     stdoutdata, stderrdata = process.communicate()
     assert process.returncode == 2
@@ -101,11 +103,11 @@ def test_run_cmip6_ndep_jasmin_vn25_past_and_future_command():
     """Test run command."""
     executable = str(Path(cmip6_ndep_jasmin_vn25_past_and_future.__file__))
     print(f"Path to executable: {executable}")
-    cmd = [executable, '--help']
+    cmd = [executable, "--help"]
     process = subprocess.Popen(cmd, stdout=subprocess.PIPE)
     stdoutdata, stderrdata = process.communicate()
     assert process.returncode == 0
-    cmd = [executable, '--cow']
+    cmd = [executable, "--cow"]
     process = subprocess.Popen(cmd, stdout=subprocess.PIPE)
     stdoutdata, stderrdata = process.communicate()
     assert process.returncode == 2
@@ -115,11 +117,11 @@ def test_run_cmip6_ndep_jasmin_vn26_past_and_future_command():
     """Test run command."""
     executable = str(Path(cmip6_ndep_jasmin_vn26_past_and_future.__file__))
     print(f"Path to executable: {executable}")
-    cmd = [executable, '--help']
+    cmd = [executable, "--help"]
     process = subprocess.Popen(cmd, stdout=subprocess.PIPE)
     stdoutdata, stderrdata = process.communicate()
     assert process.returncode == 0
-    cmd = [executable, '--cow']
+    cmd = [executable, "--cow"]
     process = subprocess.Popen(cmd, stdout=subprocess.PIPE)
     stdoutdata, stderrdata = process.communicate()
     assert process.returncode == 2

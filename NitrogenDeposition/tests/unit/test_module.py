@@ -13,7 +13,7 @@ def test_module():
     from nitrogendeposition import cmip6_ndep_jasmin_vn23_ssp585  # noqa
     from nitrogendeposition import (
         cmip6_ndep_jasmin_vn25_past_and_future,
-        cmip6_ndep_jasmin_vn26_past_and_future
+        cmip6_ndep_jasmin_vn26_past_and_future,
     )
     from nitrogendeposition import cmip6_ndep  # noqa
 
