@@ -8,7 +8,7 @@
 
 ```
 pip install -e .
-flake8
+black --check .
 pytest
 nitrogendeposition/cmip6_ndep_jasmin_vn21.py --help
 nitrogendeposition/cmip6_ndep_jasmin_vn23_ssp585.py --help
