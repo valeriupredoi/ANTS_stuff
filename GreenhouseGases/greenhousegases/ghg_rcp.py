@@ -1,4 +1,12 @@
-"""
+import glob
+import os
+
+import numpy as np
+from netCDF4 import Dataset
+
+
+def __doc__():
+    fstr = f"""
 reformat the CMIP6 GHG data suitable for UKCA
 use the RCP ASCII format and mole fractions
 no conversion or interpolation needed
@@ -38,15 +46,12 @@ mole_fraction_of_chcl3_in_air                 mole_fraction_of_nitrous_oxide_in_
 mole_fraction_of_halon1211_in_air             mole_fraction_of_sf6_in_air
 mole_fraction_of_halon1301_in_air             mole_fraction_of_so2f2_in_air
 
-"""
+"""  # noqa
 
-import glob
-import os
+    return fstr
 
-import numpy as np
-from netCDF4 import Dataset
 
-SOURCE = "/group_workspaces/jasmin2/tids/CMIP6_ANCIL/data/inputs4MIPs_2017-06-08/UoM/GHGConcentrations/CMIP/UoM-CMIP-1-2-0/yr/"
+SOURCE = "/group_workspaces/jasmin2/tids/CMIP6_ANCIL/data/inputs4MIPs_2017-06-08/UoM/GHGConcentrations/CMIP/UoM-CMIP-1-2-0/yr/"  # noqa
 PART1 = "mole_fraction_of_"
 PART2 = "_in_air"
 PART3 = "gr1-GMNHSH/v20160902/"
@@ -126,7 +131,8 @@ def main():
         factor = 1.0
         varname = PART1 + STDIC[gas][0] + PART2
         print("VAR: ", varname)
-        path = os.path.join(SOURCE, varname, PART3, "*.nc")
+        # FLAKE8: unused variable
+        # path = os.path.join(SOURCE, varname, PART3, "*.nc")
         fname = glob.glob(os.path.join(SOURCE, varname, PART3, "*.nc"))
         if len(fname) != 1:
             raise Exception("Either too many or few input nc files " +
