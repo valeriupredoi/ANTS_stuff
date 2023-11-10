@@ -27,7 +27,7 @@ jobs:
       - uses: conda-incubator/setup-miniconda@v2
         with:
           activate-environment: ants-scripts
-          environment-file: scripts/ants_environment.yml
+          environment-file: ants_environment.yml
           python-version: ${{ matrix.python-version }}
           miniforge-version: "latest"
           miniforge-variant: Mambaforge
