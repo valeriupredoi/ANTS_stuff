@@ -40,21 +40,19 @@ jobs:
         run: |
           cd ants
           pip install -e .
-      - name: Install ANCIL scripts
+      - name: Test GreenhouseGases
         run: |
-          cd scripts
+          cd GreenhouseGases
           pip install -e .
-      - name: Test ANCIL commands[NitrogenDeposition]
+          pytest
+          greenhousegases/GHG_UKCA.py --help
+          greenhousegases/GHG_radiation.py --help
+      - name: Test NitrogenDeposition
         run: |
-          scripts/NitrogenDeposition/cmip6_ndep_jasmin_vn21.py --help
-          scripts/NitrogenDeposition/cmip6_ndep_jasmin_vn23_ssp585.py --help
-          scripts/NitrogenDeposition/cmip6_ndep_jasmin_vn25_past_and_future.py --help
-          scripts/NitrogenDeposition/cmip6_ndep_jasmin_vn26_past_and_future.py  --help
-      - name: Test ANCIL scripts[NitrogenDeposition]
-        run: pytest scripts/NitrogenDeposition
-      - name: Test ANCIL commands[GreenhouseGases]
-        run: |
-          scripts/GreenhouseGases/GHG_UKCA.py --help
-          scripts/GreenhouseGases/GHG_radiation.py --help
-      - name: Test ANCIL scripts[GreenhouseGases]
-        run: pytest scripts/GreenhouseGases
+          cd NitrogenDeposition
+          pip install -e .
+          pytest
+          nitrogendeposition/cmip6_ndep_jasmin_vn21.py --help
+          nitrogendeposition/cmip6_ndep_jasmin_vn23_ssp585.py --help
+          nitrogendeposition/cmip6_ndep_jasmin_vn25_past_and_future.py --help
+          nitrogendeposition/cmip6_ndep_jasmin_vn26_past_and_future.py  --help
