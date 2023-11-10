@@ -15,9 +15,9 @@ from io import StringIO
 
 import pytest
 
-from GreenhouseGases import GHG_radiation
-from GreenhouseGases import ghg_ukca_ncplot
-from GreenhouseGases import GHG_UKCA
+from greenhousegases import GHG_radiation
+from greenhousegases import ghg_ukca_ncplot
+from greenhousegases import GHG_UKCA
 
 
 def test_run_GHG_radiation_command():
