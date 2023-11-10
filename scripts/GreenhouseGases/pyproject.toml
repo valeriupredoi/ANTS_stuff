@@ -1,0 +1,11 @@
+[build-system]
+requires = ["setuptools >= 40.6.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ANTS-Ancil-Scripts-Python3.7"
+version = "0.0"
+requires-python = ">=3.7"
+
+[tool.setuptools]
+packages = ["greenhousegases"]
