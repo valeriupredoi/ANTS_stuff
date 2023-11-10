@@ -6,6 +6,8 @@
 
 ## Tests passing
 
+black==black, 21.12b0 (compiled: no)
+
 ```
 pip install -e .
 black --check .
