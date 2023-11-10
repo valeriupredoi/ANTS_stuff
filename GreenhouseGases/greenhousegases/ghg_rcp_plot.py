@@ -3,6 +3,7 @@
 
 import matplotlib.pyplot as plt
 import numpy as np
+
 # from netCDF4 import Dataset  # unused import
 
 
@@ -53,9 +54,7 @@ CH3CL | MeCl
 
 SOURCE = "./trgas_rcp_historical.dat"
 # UKCAOUT='/group_workspaces/jasmin2/tids/users/till/RCP/UKCA_output/Test_RCP_Short.dat'  # noqa
-UKCAOUT = (
-    "/group_workspaces/jasmin2/tids/users/till/RCP/UKCA_output/Test_RCP_Full_0line.dat"  # noqa
-)
+UKCAOUT = "/group_workspaces/jasmin2/tids/users/till/RCP/UKCA_output/Test_RCP_Full_0line.dat"  # noqa
 
 MATCH = {
     "CO2": ["CO2"],
@@ -209,11 +208,11 @@ def main():
         print("UKCA species: ", species[ukcaind])
         conv = convfac[ukcaind - 1]
         print("convfac: ", conv)
-        ukca = ukcaout[:350 * 12, ukcaind] / conv / unit
+        ukca = ukcaout[: 350 * 12, ukcaind] / conv / unit
         #        print "UKCA time series: ", ukca
 
         plt.subplot(4, 5, counter + 1)
-        plt.plot(rcpin[:, 0], rcp[:], "b", ukcaout[:350 * 12, 0], ukca, "r-")
+        plt.plot(rcpin[:, 0], rcp[:], "b", ukcaout[: 350 * 12, 0], ukca, "r-")
         plt.title(spec + " [" + unitstr + "]")
     #        plt.xlabel("years")
 

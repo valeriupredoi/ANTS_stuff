@@ -23,9 +23,7 @@ YEARDAY = 365.24
 
 START = 1850
 END = 2015
-UKCAOUT = (
-    "/group_workspaces/jasmin2/tids/users/till/RCP/UKCA_output/Test_RCP_Full_0line.dat"  # noqa
-)
+UKCAOUT = "/group_workspaces/jasmin2/tids/users/till/RCP/UKCA_output/Test_RCP_Full_0line.dat"  # noqa
 
 MATCH = {
     "CO2": ["CO2"],
@@ -176,8 +174,7 @@ def main():
         # path = os.path.join(SOURCE, varname, PART3, "*.nc")
         fname = glob.glob(os.path.join(SOURCE, varname, PART3, "*.nc"))
         if len(fname) != 1:
-            raise Exception("Either too many or few input nc files " +
-                            gas["name"])
+            raise Exception("Either too many or few input nc files " + gas["name"])
         #   add some exceptions
         if gas[0:4] == "DUMM":
             factor = DUM
@@ -214,12 +211,11 @@ def main():
         print("UKCA species: ", species[ukcaind])
         conv = convfac[ukcaind - 1]
         print("convfac: ", conv)
-        ukca = ukcaout[:350 * 12, ukcaind] / conv / unit
+        ukca = ukcaout[: 350 * 12, ukcaind] / conv / unit
         #        print "UKCA time series: ", ukca
 
         plt.subplot(4, 5, counter + 1)
-        plt.plot(taxis / YEARDAY, rcp[:], "g+", ukcaout[:350 * 12, 0], ukca,
-                 "r-")
+        plt.plot(taxis / YEARDAY, rcp[:], "g+", ukcaout[: 350 * 12, 0], ukca, "r-")
         plt.title(spec + " [" + units[ind] + "]")
     #        plt.xlabel("years")
 

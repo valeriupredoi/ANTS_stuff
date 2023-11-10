@@ -67,30 +67,10 @@ CO2 = {
     "units": CO2_U,
     "varname": "carbon_dioxide_GM",
 }
-CH4 = {
-    "name": "CH4",
-    "converfac": CH4_M,
-    "units": CH4_U,
-    "varname": "methane_GM"
-}
-N2O = {
-    "name": "N2O",
-    "converfac": N2O_M,
-    "units": N2O_U,
-    "varname": "nitrous_oxide_GM"
-}
-CFC12 = {
-    "name": "CFC12",
-    "converfac": CFC_M,
-    "units": CFC_U,
-    "varname": "cfc12eq_GM"
-}
-HFC = {
-    "name": "HFC134A",
-    "converfac": HFC_M,
-    "units": HFC_U,
-    "varname": "hfc134aeq_GM"
-}
+CH4 = {"name": "CH4", "converfac": CH4_M, "units": CH4_U, "varname": "methane_GM"}
+N2O = {"name": "N2O", "converfac": N2O_M, "units": N2O_U, "varname": "nitrous_oxide_GM"}
+CFC12 = {"name": "CFC12", "converfac": CFC_M, "units": CFC_U, "varname": "cfc12eq_GM"}
+HFC = {"name": "HFC134A", "converfac": HFC_M, "units": HFC_U, "varname": "hfc134aeq_GM"}
 CFC11 = {"name": "CFC11", "converfac": "", "units": "", "varname": ""}
 CFC113 = {"name": "CFC113", "converfac": "", "units": "", "varname": ""}
 CFC114 = {"name": "CFC114", "converfac": "", "units": "", "varname": ""}
@@ -129,17 +109,21 @@ def ghg_ssp(gas_in, start, end, source_files, project, data_version):
     # likewise scenarioMIP start year can't be smaller than 2015
     if project == "historical":
         if end > WATERSHED:
-            warn((
-                "'end' argument {} is later than final year "
-                "in source file. Resetting to {}"
-            ).format(end, WATERSHED))
+            warn(
+                (
+                    "'end' argument {} is later than final year "
+                    "in source file. Resetting to {}"
+                ).format(end, WATERSHED)
+            )
             end = WATERSHED
     elif project == "scenarioMIP":
         if start < WATERSHED:
-            warn((
-                "'start' argument {} is earlier than start year "
-                "in source file. Resetting to {}"
-            ).format(start, WATERSHED))
+            warn(
+                (
+                    "'start' argument {} is earlier than start year "
+                    "in source file. Resetting to {}"
+                ).format(start, WATERSHED)
+            )
             start = WATERSHED
     # fixed parts of the source filename
     PART1 = "mole_fraction_of_"
@@ -150,14 +134,12 @@ def ghg_ssp(gas_in, start, end, source_files, project, data_version):
     if project == "historical":  # turn underscores into dashes
         variname_mod = PART1 + gas_in["varname"][:-3] + PART2
         variname_mod = variname_mod.replace("_", "-")
-        fname = glob.glob(
-            os.path.join(source_files, variname_mod, PART3, "*.nc"))
+        fname = glob.glob(os.path.join(source_files, variname_mod, PART3, "*.nc"))
     elif project == "scenarioMIP":
         fname = glob.glob(os.path.join(source_files, variname, PART3, "*.nc"))
     print((fname[0]), end=" ")
     if len(fname) != 1:
-        raise Exception("Either too many or no input nc files " +
-                        gas_in["name"])
+        raise Exception("Either too many or no input nc files " + gas_in["name"])
 
     fh = Dataset(fname[0], mode="r")
     # read in the data
@@ -191,8 +173,7 @@ def ghg_ssp(gas_in, start, end, source_files, project, data_version):
             # convert time array to int, this is what's needed
             # for the rose-app.conf format
             time_intp = time_intp.astype(int)
-            chunk = np.where((time_intp >= start_read)
-                             & (time_intp <= end_read))
+            chunk = np.where((time_intp >= start_read) & (time_intp <= end_read))
             gas_out = gas_intp[chunk]
             time_out = time_intp[chunk]
             # padding at the beginning if year (start - 1)
@@ -210,8 +191,7 @@ def ghg_ssp(gas_in, start, end, source_files, project, data_version):
             # convert time array to int
             # this is what's needed for the rose-app.conf format
             time_intp = time_intp.astype(int)
-            chunk = np.where((time_intp >= start_read)
-                             & (time_intp <= end_read))
+            chunk = np.where((time_intp >= start_read) & (time_intp <= end_read))
             gas_out = gas_intp[chunk]
             time_out = time_intp[chunk]
             # extrapolation at the end, from the source data
@@ -221,8 +201,8 @@ def ghg_ssp(gas_in, start, end, source_files, project, data_version):
             # FLAKE8: unused variable
             gas_extrap = gas[chunk]
             gas_out = np.insert(
-                gas_out, -1,
-                gas_extrap[-1] + 0.5 * (gas_extrap[-1] - gas_extrap[-2]))
+                gas_out, -1, gas_extrap[-1] + 0.5 * (gas_extrap[-1] - gas_extrap[-2])
+            )
             time_out = np.insert(time_out, -1, time_out[-1] + 1)
 
     # now the case where end==None, that is, just a single year
@@ -250,8 +230,13 @@ def write_rose_conf(gas_mmr, start, end, output_file, project):
         outp.write("[namelist:clmchfcg]")
         outp.write("\n")
         for gas in GASES_NON_UM:
-            outp.write("clim_fcg_levls_" + gas["name"].lower() + "=" +
-                       str(ntimes) + "*-32768.0")
+            outp.write(
+                "clim_fcg_levls_"
+                + gas["name"].lower()
+                + "="
+                + str(ntimes)
+                + "*-32768.0"
+            )
             outp.write("\n")
         loop_step = 6
         for gas in GASES:
@@ -266,12 +251,10 @@ def write_rose_conf(gas_mmr, start, end, output_file, project):
                     #  last entry in list shouldn't be followed by a comma
                     # (makes rose GUI throw an error)
                     if count < (ntimes - 1):
-                        outp.write("%7.4e," %
-                                   gas_mmr[(gas["name"], "mmr")][count])
+                        outp.write("%7.4e," % gas_mmr[(gas["name"], "mmr")][count])
                     else:
                         try:
-                            outp.write("%7.4e" %
-                                       gas_mmr[(gas["name"], "mmr")][count])
+                            outp.write("%7.4e" % gas_mmr[(gas["name"], "mmr")][count])
                         except RuntimeError as exc:
                             print(exc)
                             break
@@ -281,22 +264,32 @@ def write_rose_conf(gas_mmr, start, end, output_file, project):
             outp.write("clim_fcg_nyears_" + gas["name"].lower() + "=0")
             outp.write("\n")
         for gas in GASES:
-            outp.write("clim_fcg_nyears_" + gas["name"].lower() + "=" +
-                       str(ntimes))
+            outp.write("clim_fcg_nyears_" + gas["name"].lower() + "=" + str(ntimes))
             outp.write("\n")
         # write rates
         for gas in GASES_NON_UM:
-            outp.write("clim_fcg_rates_" + gas["name"].lower() + "=" +
-                       str(ntimes) + "*-32768.0")
+            outp.write(
+                "clim_fcg_rates_"
+                + gas["name"].lower()
+                + "="
+                + str(ntimes)
+                + "*-32768.0"
+            )
             outp.write("\n")
         for gas in GASES:
-            outp.write("clim_fcg_rates_" + gas["name"].lower() + "=" +
-                       str(ntimes) + "*-32768.0")
+            outp.write(
+                "clim_fcg_rates_"
+                + gas["name"].lower()
+                + "="
+                + str(ntimes)
+                + "*-32768.0"
+            )
             outp.write("\n")
         # write years
         for gas in GASES_NON_UM:
-            outp.write("clim_fcg_years_" + gas["name"].lower() + "=" +
-                       str(ntimes) + "*-32768")
+            outp.write(
+                "clim_fcg_years_" + gas["name"].lower() + "=" + str(ntimes) + "*-32768"
+            )
             outp.write("\n")
         loop_step = 12
         for gas in GASES:
@@ -309,12 +302,10 @@ def write_rose_conf(gas_mmr, start, end, output_file, project):
                 for i in range(loop_step):
                     count = line * loop_step + i
                     if count < (ntimes - 1):
-                        outp.write("%d," %
-                                   gas_mmr[(gas["name"], "year")][count])
+                        outp.write("%d," % gas_mmr[(gas["name"], "year")][count])
                     else:
                         try:
-                            outp.write("%d" %
-                                       gas_mmr[(gas["name"], "year")][count])
+                            outp.write("%d" % gas_mmr[(gas["name"], "year")][count])
                         except RuntimeError as exc:
                             print(exc)
                             break
@@ -327,8 +318,7 @@ def _process(start, end, source_files, output_file, project, data_version):
     gas_mmr = {}
     #    print "GASES: ", GASES
     for gas in GASES:
-        mmr, year = ghg_ssp(gas, start, end, source_files[0], project,
-                            data_version)
+        mmr, year = ghg_ssp(gas, start, end, source_files[0], project, data_version)
         gas_mmr[(gas["name"], "mmr")] = mmr
         gas_mmr[(gas["name"], "year")] = year
 
@@ -338,11 +328,12 @@ def _process(start, end, source_files, output_file, project, data_version):
 if __name__ == "__main__":
     # __doc__ is the module docstring.
     arg_parser = argparse.ArgumentParser(
-        description=__doc__,
-        formatter_class=argparse.RawDescriptionHelpFormatter)
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     args = arg_parser.parse_args()
-    _process(args.begin, args.end, args.sources, args.output, args.project,
-             args.data_version)
+    _process(
+        args.begin, args.end, args.sources, args.output, args.project, args.data_version
+    )
 
 
 def __example__():
