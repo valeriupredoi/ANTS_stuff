@@ -66,11 +66,10 @@ mole_fraction_of_halon1211_in_air             mole_fraction_of_sf6_in_air
 mole_fraction_of_halon1301_in_air             mole_fraction_of_so2f2_in_air
 
 """
+import argparse
 import glob
 import os
 from warnings import warn
-
-import argparse
 
 import numpy as np
 from netCDF4 import Dataset

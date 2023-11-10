@@ -35,11 +35,10 @@ $> ./GHG_scenario.py -s $source -o $target -p "historical" -b 1850 -e 2015
 T. Kuhlbrodt 14/2/19
 
 """
+import argparse
 import glob
 import os
 from warnings import warn
-
-import argparse
 
 import numpy as np
 from netCDF4 import Dataset
