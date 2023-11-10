@@ -13,22 +13,12 @@ from pathlib import Path
 from unittest.mock import patch
 from io import StringIO
 
-import pytest
-
 from nitrogendeposition import (
     cmip6_ndep_jasmin_vn21,
     cmip6_ndep_jasmin_vn23_ssp585,
     cmip6_ndep_jasmin_vn25_past_and_future,
     cmip6_ndep_jasmin_vn26_past_and_future,
 )
-
-from nitrogendeposition.cmip6_ndep_jasmin_vn21 import main as vn21_main
-
-# use these imports to test the executables (when/if they become executables)
-# from nitrogendeposition.cmip6_ndep_jasmin_vn23_ssp585 import main as vn23_main
-# from nitrogendeposition.cmip6_ndep_jasmin_vn25_past_and_future import main as vn25_main
-# from nitrogendeposition.cmip6_ndep_jasmin_vn26_past_and_future import main as vn26_main
-# from nitrogendeposition.cmip6_ndep import main as ndep_main
 
 
 def wrapper(f):
