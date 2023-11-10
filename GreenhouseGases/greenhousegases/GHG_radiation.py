@@ -1,40 +1,4 @@
 #!/usr/bin/env python
-"""
-reformat the CMIP6 GHG data suitable for the rose suite configuration file
-convert from mole fraction into mass mixing ratio
-a version with a command line interface
-
-interpolate the source data in time
-if this fails for specific years (around 2015AD for instance), then:
-* at the beginning, pad with the first available year from the source
-* at the end, extrapolate from the source 
-
-Location of HISTORICAL source data: 
-/gws/nopw/j04/cmip6_prep_vol1/cmip6_ancils/data/inputs4MIPs_2018-11-01/CMIP6/CMIP/UoM/UoM-CMIP-1-2-0/atmos/yr/mole-fraction-of-carbon-dioxide-in-air/gr1-GMNHSH/v20160830/
-
-Location of SCENARIOMIP source data:
-/gws/nopw/j04/cmip6_prep_vol1/cmip6_ancils/data/inputs4MIPs_2018-11-01/CMIP6/ScenarioMIP/UoM/UoM-AIM-ssp370-1-2-0/atmos/yr/mole_fraction_of_carbon_dioxide_in_air/gr1-GMNHSH/v20180611
-
-I'm defining the parameters for the in-line command:
-$> source='/gws/nopw/j04/cmip6_prep_vol1/cmip6_ancils/data/inputs4MIPs_2018-11-01/CMIP6/ScenarioMIP/UoM/UoM-IMAGE-ssp126-1-2-0/atmos/yr'
-$> target='./Outnow/glo_ghg_SSP126_'
-
-and then I can call the routine like so:
-$> ./GHG_radiation.py -s $source -o $target -p "scenarioMIP" -b 2015 -e 2101
-
-For the SSP585 data: source='/gws/nopw/j04/cmip6_prep_vol1/cmip6_ancils/data/inputs4MIPs_2018-11-01/CMIP6/ScenarioMIP/UoM/UoM-REMIND-MAGPIE-ssp585-1-2-0/atmos/yr'
-$> target='./Outnow/glo_ghg_SSP585_'
-
-Alternatively, for the historical data:
-$> source='/gws/nopw/j04/cmip6_prep_vol1/cmip6_ancils/data/inputs4MIPs_2018-11-01/CMIP6/CMIP/UoM/UoM-CMIP-1-2-0/atmos/yr'
-$> target='./Outnow/glo_ghg_hist_'
-
-and then I can call the routine like so:
-$> ./GHG_scenario.py -s $source -o $target -p "historical" -b 1850 -e 2015
-
-T. Kuhlbrodt 14/2/19
-
-"""
 import argparse
 import glob
 import os
@@ -42,6 +6,46 @@ from warnings import warn
 
 import numpy as np
 from netCDF4 import Dataset
+
+
+def __doc__():
+    fstr = f"""
+        reformat the CMIP6 GHG data suitable for the rose suite configuration file
+        convert from mole fraction into mass mixing ratio
+        a version with a command line interface
+
+        interpolate the source data in time
+        if this fails for specific years (around 2015AD for instance), then:
+        * at the beginning, pad with the first available year from the source
+        * at the end, extrapolate from the source 
+
+        Location of HISTORICAL source data: 
+        /gws/nopw/j04/cmip6_prep_vol1/cmip6_ancils/data/inputs4MIPs_2018-11-01/CMIP6/CMIP/UoM/UoM-CMIP-1-2-0/atmos/yr/mole-fraction-of-carbon-dioxide-in-air/gr1-GMNHSH/v20160830/
+
+        Location of SCENARIOMIP source data:
+        /gws/nopw/j04/cmip6_prep_vol1/cmip6_ancils/data/inputs4MIPs_2018-11-01/CMIP6/ScenarioMIP/UoM/UoM-AIM-ssp370-1-2-0/atmos/yr/mole_fraction_of_carbon_dioxide_in_air/gr1-GMNHSH/v20180611
+
+        I'm defining the parameters for the in-line command:
+        $> source='/gws/nopw/j04/cmip6_prep_vol1/cmip6_ancils/data/inputs4MIPs_2018-11-01/CMIP6/ScenarioMIP/UoM/UoM-IMAGE-ssp126-1-2-0/atmos/yr'
+        $> target='./Outnow/glo_ghg_SSP126_'
+
+        and then I can call the routine like so:
+        $> ./GHG_radiation.py -s $source -o $target -p "scenarioMIP" -b 2015 -e 2101
+
+        For the SSP585 data: source='/gws/nopw/j04/cmip6_prep_vol1/cmip6_ancils/data/inputs4MIPs_2018-11-01/CMIP6/ScenarioMIP/UoM/UoM-REMIND-MAGPIE-ssp585-1-2-0/atmos/yr'
+        $> target='./Outnow/glo_ghg_SSP585_'
+        Alternatively, for the historical data:
+        $> source='/gws/nopw/j04/cmip6_prep_vol1/cmip6_ancils/data/inputs4MIPs_2018-11-01/CMIP6/CMIP/UoM/UoM-CMIP-1-2-0/atmos/yr'
+        $> target='./Outnow/glo_ghg_hist_'
+
+        and then I can call the routine like so:
+        $> ./GHG_scenario.py -s $source -o $target -p "historical" -b 1850 -e 2015
+
+        T. Kuhlbrodt 14/2/19
+        """  # noqa
+
+    return fstr
+
 
 # conversion factors from ukca_constants.F90
 CO2_M = 1.5188
@@ -121,17 +125,20 @@ def ghg_ssp(gas_in, start, end, source_files, project, data_version):
     else:
         print("MIP project needs to be either 'historical' or 'scenarioMIP'.")
         exit()
-    # sanity check: historical end year can't be greater than 2015; likewise scenarioMIP start year can't be smaller than 2015
+    # sanity check: historical end year can't be greater than 2015;
+    # likewise scenarioMIP start year can't be smaller than 2015
     if project == "historical":
         if end > WATERSHED:
             warn((
-                "'end' argument {} is later than final year in source file. Resetting to {}"
+                "'end' argument {} is later than final year "
+                "in source file. Resetting to {}"
             ).format(end, WATERSHED))
             end = WATERSHED
     elif project == "scenarioMIP":
         if start < WATERSHED:
             warn((
-                "'start' argument {} is earlier than start year in source file. Resetting to {}"
+                "'start' argument {} is earlier than start year "
+                "in source file. Resetting to {}"
             ).format(start, WATERSHED))
             start = WATERSHED
     # fixed parts of the source filename
@@ -160,7 +167,7 @@ def ghg_ssp(gas_in, start, end, source_files, project, data_version):
 
     # convert volume mix ratio (i.e. mole fraction) to mass mixing ratio
     # use the units provided in the Source
-    leng = len(gas)
+    # leng = len(gas)  # FLAKE8: unused variable
     gas = gas * gas_in["converfac"] * gas_in["units"]
 
     if end:
@@ -173,23 +180,26 @@ def ghg_ssp(gas_in, start, end, source_files, project, data_version):
         gas_intp = interpolate(gas)
         time_intp = interpolate(time)
         # set the actual start and end year to be cut out
-        #  don't add an extra year at the end - if extra years are needed the user has
-        #  to request it
+        # don't add an extra year at the end - if extra years
+        # are needed the user has to request it
         start_read = start
         end_read = end
 
         # check if year (start) is available in the interpolated time series
         if time_intp[0] > start:
             start_read = start_read + 1
-            # convert time array to int, this is what's needed for the rose-app.conf format
+            # convert time array to int, this is what's needed
+            # for the rose-app.conf format
             time_intp = time_intp.astype(int)
             chunk = np.where((time_intp >= start_read)
                              & (time_intp <= end_read))
             gas_out = gas_intp[chunk]
             time_out = time_intp[chunk]
-            # padding at the beginning if year (start - 1) is not available in the source.
+            # padding at the beginning if year (start - 1)
+            # is not available in the source.
             # do this from the source data (not from the interpolated data)
-            chunk_extrap = np.where(np.isclose(time, start + 0.5))
+            # FLAKE8: unused variable
+            # chunk_extrap = np.where(np.isclose(time, start + 0.5))
             gas_extrap = gas[chunk]
             gas_out = np.insert(gas_out, 0, gas_extrap[0])
             time_out = np.insert(time_out, 0, time_out[0] - 1)
@@ -197,15 +207,18 @@ def ghg_ssp(gas_in, start, end, source_files, project, data_version):
         # check if year (end) is available in the interpolated time series
         if time_intp[-1] < end:
             end_read = end - 1
-            # convert time array to int, this is what's needed for the rose-app.conf format
+            # convert time array to int
+            # this is what's needed for the rose-app.conf format
             time_intp = time_intp.astype(int)
             chunk = np.where((time_intp >= start_read)
                              & (time_intp <= end_read))
             gas_out = gas_intp[chunk]
             time_out = time_intp[chunk]
-            # extrapolation at the end, from the source data (not from the interpolated data)
-            chunk_extrap = np.where((time <= end - 0.49)
-                                    & (time >= end - 1.51))
+            # extrapolation at the end, from the source data
+            # (not from the interpolated data)
+            # chunk_extrap = np.where((time <= end - 0.49)
+            #                        & (time >= end - 1.51))
+            # FLAKE8: unused variable
             gas_extrap = gas[chunk]
             gas_out = np.insert(
                 gas_out, -1,
@@ -214,7 +227,8 @@ def ghg_ssp(gas_in, start, end, source_files, project, data_version):
 
     # now the case where end==None, that is, just a single year
     else:
-        # convert time array to int, this is what's needed for the rose-app.conf format
+        # convert time array to int
+        # is what's needed for the rose-app.conf format
         time = time.astype(int)
         chunk = np.where(time == start)
         gas_out = gas[chunk]
@@ -249,7 +263,8 @@ def write_rose_conf(gas_mmr, start, end, output_file, project):
                     outp.write("    =")
                 for i in range(loop_step):
                     count = line * loop_step + i
-                    #  last entry in list shouldn't be followed by a comma (makes rose GUI throw an error)
+                    #  last entry in list shouldn't be followed by a comma
+                    # (makes rose GUI throw an error)
                     if count < (ntimes - 1):
                         outp.write("%7.4e," %
                                    gas_mmr[(gas["name"], "mmr")][count])
@@ -257,7 +272,8 @@ def write_rose_conf(gas_mmr, start, end, output_file, project):
                         try:
                             outp.write("%7.4e" %
                                        gas_mmr[(gas["name"], "mmr")][count])
-                        except:
+                        except RuntimeError as exc:
+                            print(exc)
                             break
                 outp.write("\n")
         # write no years
@@ -299,7 +315,8 @@ def write_rose_conf(gas_mmr, start, end, output_file, project):
                         try:
                             outp.write("%d" %
                                        gas_mmr[(gas["name"], "year")][count])
-                        except:
+                        except RuntimeError as exc:
+                            print(exc)
                             break
                 outp.write("\n")
 
@@ -326,44 +343,49 @@ if __name__ == "__main__":
     args = arg_parser.parse_args()
     _process(args.begin, args.end, args.sources, args.output, args.project,
              args.data_version)
-"""
-Example usages:
 
-* The help interface:
 
-$ ./example.py -h
+def __example__():
+    fstr = f"""
+        Example usages:
 
-usage: example.py [-h] [-e END] [-n NAME] -b BEGIN -o OUTPUT -s SOURCES [SOURCES ...] [-f FOO]
+        * The help interface:
 
-This module docstring will be passed to the ArgumentParser to provide usage
-instructions for the application.  Notice how the help text is populated with
-little effort.
+        $ ./example.py -h
 
-optional arguments:
-  -h, --help            show this help message and exit
-  -e END, --end END     Optional end year for the processing. If this is used, output is a
-                        timeseries from the 'begin' year to this year, inclusive of both the
-                        'begin' year and the 'end' year. Otherwise, the output will be a
-                        timeslice in the 'begin' year only.
-  -n NAME, --name NAME  Name of the species to be preprocessed.
-  -f FOO, --foo FOO     An arbitrary new argument.
+        usage: example.py [-h] [-e END] [-n NAME] -b BEGIN -o OUTPUT -s SOURCES [SOURCES ...] [-f FOO]
 
-required arguments:
-  -b BEGIN, --begin BEGIN
-                        Start year for the processing.
-  -o OUTPUT, --output OUTPUT
-                        Filename to write the result to.
-  -s SOURCES [SOURCES ...], --sources SOURCES [SOURCES ...]
-                        Filename(s) to read the source data from.
+        This module docstring will be passed to the ArgumentParser to provide usage
+        instructions for the application.  Notice how the help text is populated with
+        little effort.
 
-* Generating a timeslice from two source files:
+        optional arguments:
+          -h, --help            show this help message and exit
+          -e END, --end END     Optional end year for the processing. If this is used, output is a
+                                timeseries from the 'begin' year to this year, inclusive of both the
+                                'begin' year and the 'end' year. Otherwise, the output will be a
+                                timeslice in the 'begin' year only.
+          -n NAME, --name NAME  Name of the species to be preprocessed.
+          -f FOO, --foo FOO     An arbitrary new argument.
 
-$ ./example.py -b 1850 -n SO2 -s foo bar -o baz
-Process a timeslice for species SO2 from ['foo', 'bar'] files for year 1850, writing result to baz.
+        required arguments:
+          -b BEGIN, --begin BEGIN
+                                Start year for the processing.
+          -o OUTPUT, --output OUTPUT
+                                Filename to write the result to.
+          -s SOURCES [SOURCES ...], --sources SOURCES [SOURCES ...]
+                                Filename(s) to read the source data from.
 
-* Generating a timeseries:
+        * Generating a timeslice from two source files:
 
-$ ./example.py -b 1850 -e 2014 -n SO2 -s foo bar -o baz
-Process a timeseries for species SO2 from ['foo', 'bar'] files beween 1850 and 2014, writing result to baz.
+        $ ./example.py -b 1850 -n SO2 -s foo bar -o baz
+        Process a timeslice for species SO2 from ['foo', 'bar'] files for year 1850, writing result to baz.
 
-"""
+        * Generating a timeseries:
+
+        $ ./example.py -b 1850 -e 2014 -n SO2 -s foo bar -o baz
+        Process a timeseries for species SO2 from ['foo', 'bar'] files beween 1850 and 2014, writing result to baz.
+
+        """  # noqa
+
+    return fstr
