@@ -1,42 +1,52 @@
 #!/usr/bin/env python
-"""
-reformat the CMIP6 GHG data suitable for UKCA
-use the RCP ASCII format and mole fractions
-no conversion or interpolation needed
+import argparse
+import glob
+import os
+from warnings import warn
 
-/ read mole fractions, times, units
-/ put everything in a big list
-/ then write to ASCII format
-  * three blanks between entries
-  *  a blueprint for the data format is /group_workspaces/jasmin2/tids/users/till/RCP/trgas_rcp_scenario.dat
+import numpy as np
+from netCDF4 import Dataset
+
+
+def __doc__():
+    fstr = f"""
+        reformat the CMIP6 GHG data suitable for UKCA
+        use the RCP ASCII format and mole fractions
+        no conversion or interpolation needed
+
+        / read mole fractions, times, units
+        / put everything in a big list
+        / then write to ASCII format
+          * three blanks between entries
+          *  a blueprint for the data format is /group_workspaces/jasmin2/tids/users/till/RCP/trgas_rcp_scenario.dat
   
-* use with command line arguments like GHG_SSP.py
-* new input (Source) data needed
+       * use with command line arguments like GHG_SSP.py
+       * new input (Source) data needed
 
-Location of HISTORICAL source data: 
-/gws/nopw/j04/cmip6_prep_vol1/cmip6_ancils/data/inputs4MIPs_2018-11-01/CMIP6/CMIP/UoM/UoM-CMIP-1-2-0/atmos/yr/mole-fraction-of-carbon-dioxide-in-air/gr1-GMNHSH/v20160830/
+       Location of HISTORICAL source data: 
+       /gws/nopw/j04/cmip6_prep_vol1/cmip6_ancils/data/inputs4MIPs_2018-11-01/CMIP6/CMIP/UoM/UoM-CMIP-1-2-0/atmos/yr/mole-fraction-of-carbon-dioxide-in-air/gr1-GMNHSH/v20160830/
 
-Location of SCENARIOMIP source data:
-/gws/nopw/j04/cmip6_prep_vol1/cmip6_ancils/data/inputs4MIPs_2018-11-01/CMIP6/ScenarioMIP/UoM/UoM-AIM-ssp370-1-2-0/atmos/yr/mole_fraction_of_carbon_dioxide_in_air/gr1-GMNHSH/v20180611
+       Location of SCENARIOMIP source data:
+       /gws/nopw/j04/cmip6_prep_vol1/cmip6_ancils/data/inputs4MIPs_2018-11-01/CMIP6/ScenarioMIP/UoM/UoM-AIM-ssp370-1-2-0/atmos/yr/mole_fraction_of_carbon_dioxide_in_air/gr1-GMNHSH/v20180611
 
-I'm defining the parameters for the in-line command:
-$> source='/gws/nopw/j04/cmip6_prep_vol1/cmip6_ancils/data/inputs4MIPs_2018-11-01/CMIP6/ScenarioMIP/UoM/UoM-AIM-ssp370-1-2-0/atmos/yr'
-$> target='./Out/trgas_ssp370_'
+      I'm defining the parameters for the in-line command:
+      $> source='/gws/nopw/j04/cmip6_prep_vol1/cmip6_ancils/data/inputs4MIPs_2018-11-01/CMIP6/ScenarioMIP/UoM/UoM-AIM-ssp370-1-2-0/atmos/yr'
+      $> target='./Out/trgas_ssp370_'
 
-and then I can call the routine like so:
-$> ./GHG_UKCA.py -s $source -o $target -p "scenarioMIP" -b 2015 -e 2035
+      and then I can call the routine like so:
+      $> ./GHG_UKCA.py -s $source -o $target -p "scenarioMIP" -b 2015 -e 2035
 
-Alternatively, for the historical data:
-$> source='/gws/nopw/j04/cmip6_prep_vol1/cmip6_ancils/data/inputs4MIPs_2018-11-01/CMIP6/CMIP/UoM/UoM-CMIP-1-2-0/atmos/yr'
-$> target='./Out/trgas_historical_'
+      Alternatively, for the historical data:
+      $> source='/gws/nopw/j04/cmip6_prep_vol1/cmip6_ancils/data/inputs4MIPs_2018-11-01/CMIP6/CMIP/UoM/UoM-CMIP-1-2-0/atmos/yr'
+      $> target='./Out/trgas_historical_'
 
-and then I can call the routine like so:
-$> ./GHG_UKCA.py -s $source -o $target -p "historical" -b 1900 -e 2000
+      and then I can call the routine like so:
+      $> ./GHG_UKCA.py -s $source -o $target -p "historical" -b 1900 -e 2000
 
-*** NOTE! ***
-As of 25/11/18, the units attribute for the GHG variables is erroneously set to 1e-12 for all GHGs in the current source files. This has been raised with Paul Durack at LLNL. As a temporary fix, this script will write the correct units in the header of the output file without reading them from the source file. 
+      *** NOTE! ***
+      As of 25/11/18, the units attribute for the GHG variables is erroneously set to 1e-12 for all GHGs in the current source files. This has been raised with Paul Durack at LLNL. As a temporary fix, this script will write the correct units in the header of the output file without reading them from the source file. 
 
-T. Kuhlbrodt 21/11/18
+     T. Kuhlbrodt 21/11/18
 
 Below the variable names in the input4MIP data set
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -65,14 +75,10 @@ mole_fraction_of_chcl3_in_air                 mole_fraction_of_nitrous_oxide_in_
 mole_fraction_of_halon1211_in_air             mole_fraction_of_sf6_in_air
 mole_fraction_of_halon1301_in_air             mole_fraction_of_so2f2_in_air
 
-"""
-import argparse
-import glob
-import os
-from warnings import warn
+    """  # noqa
 
-import numpy as np
-from netCDF4 import Dataset
+    return fstr
+
 
 # agreed format for columns that are not used by UKCA
 ZERO = 0.0
@@ -135,7 +141,9 @@ GASES = [
 ]
 
 # temporary fix: write the units into the header of the output file
-UNITSHEADER = "\n   UNITS:      ppt   ppm   ppb   ppb   ppt   ppt   ppt   ppt   ppt   ppt   ppt   ppt   ppt   ppt   ppt   ppt   ppt   ppt   ppt   ppt   ppt   ppt   ppt   ppt"
+UNITSHEADER = "\n   UNITS:      ppt   ppm   ppb   ppb   ppt   ppt   ppt" \
+    "ppt   ppt   ppt   ppt   ppt   ppt   ppt   ppt   ppt   ppt   ppt" \
+    "   ppt   ppt   ppt   ppt   ppt   ppt"
 
 
 def ukcaancil(start, end, source_files, output_file, project, data_version):
@@ -274,7 +282,10 @@ if __name__ == "__main__":
     args = arg_parser.parse_args()
     _process(args.begin, args.end, args.sources, args.output, args.project,
              args.data_version)
-"""
+
+
+def __example__():
+    fstr = f"""
 Example usages:
 
 * The help interface:
@@ -314,4 +325,6 @@ Process a timeslice for species SO2 from ['foo', 'bar'] files for year 1850, wri
 $ ./example.py -b 1850 -e 2014 -n SO2 -s foo bar -o baz
 Process a timeseries for species SO2 from ['foo', 'bar'] files beween 1850 and 2014, writing result to baz.
 
-"""
+"""  # noqa
+
+    return fstr
