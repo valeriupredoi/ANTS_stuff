@@ -1,4 +1,13 @@
-"""
+# import glob  # unused import
+# import os  # unused import
+
+import matplotlib.pyplot as plt
+import numpy as np
+# from netCDF4 import Dataset  # unused import
+
+
+def __doc__():
+    fstr = f"""
 plot the output of ghg_rcp.py: trgas_rcp_hitorical.dat
 against what UKCA has read in and processed: Test_RCP_Full.dat
 the latter has got the conversion factors
@@ -37,19 +46,15 @@ HALON2402 | CF2BrCF2Br
 CH3BR | MeBr
 CH3CL | MeCl
 
-"""
+"""  # noqa
 
-import glob
-import os
+    return fstr
 
-import matplotlib.pyplot as plt
-import numpy as np
-from netCDF4 import Dataset
 
 SOURCE = "./trgas_rcp_historical.dat"
-# UKCAOUT='/group_workspaces/jasmin2/tids/users/till/RCP/UKCA_output/Test_RCP_Short.dat'
+# UKCAOUT='/group_workspaces/jasmin2/tids/users/till/RCP/UKCA_output/Test_RCP_Short.dat'  # noqa
 UKCAOUT = (
-    "/group_workspaces/jasmin2/tids/users/till/RCP/UKCA_output/Test_RCP_Full_0line.dat"
+    "/group_workspaces/jasmin2/tids/users/till/RCP/UKCA_output/Test_RCP_Full_0line.dat"  # noqa
 )
 
 MATCH = {
@@ -157,7 +162,8 @@ def main():
 
     species = ukcaheader[3][1:]
     convfac = np.asarray(ukcaheader[4][2:]).astype(float)
-    column = np.asarray(ukcaheader[5][2:]).astype(int)
+    # FLAKE8: unused variable
+    # column = np.asarray(ukcaheader[5][2:]).astype(int)
 
     # now read the RCP input file
     fname = SOURCE
@@ -180,7 +186,8 @@ def main():
         print("line " + str(counter) + ":", value)
 
     rcpspecies = rcpheader[13][:]
-    rcpcolumn = np.asarray(rcpheader[11][1:]).astype(int)
+    # FLAKE8: unused variable
+    # rcpcolumn = np.asarray(rcpheader[11][1:]).astype(int)
     rcpunits = rcpheader[12][:]
 
     # now do the plots
