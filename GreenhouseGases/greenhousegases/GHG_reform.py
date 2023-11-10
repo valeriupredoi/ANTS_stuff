@@ -1,4 +1,14 @@
-"""
+import glob
+import os
+
+# import cartopy.crs as ccrs  # unused import
+# import matplotlib.pyplot as plt  # unused import
+import numpy as np
+from netCDF4 import Dataset
+
+
+def __doc__():
+    fstr = f"""
 reformat the CMIP6 GHG data suitable for the rose suite configuration file
 convert from mole fraction into mass mixing ratio
 
@@ -12,15 +22,10 @@ output time series is interpolated to run from 1st Jan 1849 till 1st Jan 2015
 
 T. Kuhlbrodt 2/12/16
 
-"""
+"""  # noqa
 
-import glob
-import os
+    return fstr
 
-import cartopy.crs as ccrs
-import matplotlib.pyplot as plt
-import numpy as np
-from netCDF4 import Dataset
 
 # conversion factors from ukca_constants.F90
 CO2_M = 1.5188
@@ -93,9 +98,11 @@ def main(gas_in):
     fname = glob.glob(os.path.join(SOURCEDIR, gas_in["name"], "*.nc"))
     print("FNAME", fname)
     if len(fname) != 1:
-        raise Exception("Either too many or few input nc files " + gas["name"])
+        raise Exception("Either too many or few input nc files " +
+                        gas_in["name"])
     fh = Dataset(fname[0], mode="r")
-    # read only the first column (sector "GM", as opposed to the individual hemispheres)
+    # read only the first column (sector "GM"
+    # as opposed to the individual hemispheres)
     # read the last 167 years, i.e. from 1848
     gas = fh.variables[gas_in["varname"]][-167:, 0]
     fh.close()
@@ -108,7 +115,8 @@ def main(gas_in):
     # add 1849 to time axis
     time = np.arange(leng) + 1849
 
-    # write out the time series in the rose suite configuration file format (csv with "=" and newlines thrown in)
+    # write out the time series in the rose suite configuration file format
+    # (csv with "=" and newlines thrown in)
     # fname=SOURCEDIR+GAS+"/"+GAS+".cnf"
     fname = os.path.join(SOURCEDIR, gas_in["name"], gas_in["name"] + ".cnf")
     with open(fname, "w") as outp:
@@ -117,7 +125,8 @@ def main(gas_in):
             for i in range(6):
                 try:
                     outp.write("%7.4e," % gas[line * 6 + i])
-                except:
+                except RuntimeError as exc:
+                    print(exc)
                     pass
             outp.write("\n")
 
@@ -126,7 +135,8 @@ def main(gas_in):
             for i in range(6):
                 try:
                     outp.write("%d," % time[line * 6 + i])
-                except:
+                except RuntimeError as exc:
+                    print(exc)
                     pass
             outp.write("\n")
 
@@ -158,7 +168,8 @@ def write_rose_conf(gas_mmr):
                     try:
                         outp.write("%7.4e," %
                                    gas_mmr[(gas["name"], "mmr")][line * 6 + i])
-                    except:
+                    except RuntimeError as exc:
+                        print(exc)
                         pass
                 outp.write("\n")
         # write no years
@@ -196,7 +207,8 @@ def write_rose_conf(gas_mmr):
                         outp.write("%d," %
                                    gas_mmr[(gas["name"],
                                             "year")][line * loop_step + i])
-                    except:
+                    except RuntimeError as exc:
+                        print(exc)
                         pass
                 outp.write("\n")
 
