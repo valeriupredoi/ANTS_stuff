@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from netCDF4 import Dataset
 
-SOURCE = "/group_workspaces/jasmin2/tids/CMIP6_ANCIL/data/inputs4MIPs_2017-06-08/UoM/GHGConcentrations/CMIP/UoM-CMIP-1-2-0/yr/"
+SOURCE = "/group_workspaces/jasmin2/tids/CMIP6_ANCIL/data/inputs4MIPs_2017-06-08/UoM/GHGConcentrations/CMIP/UoM-CMIP-1-2-0/yr/"  # noqa
 PART1 = "mole_fraction_of_"
 PART2 = "_in_air"
 PART3 = "gr1-GMNHSH/v20160902/"
@@ -24,7 +24,7 @@ YEARDAY = 365.24
 START = 1850
 END = 2015
 UKCAOUT = (
-    "/group_workspaces/jasmin2/tids/users/till/RCP/UKCA_output/Test_RCP_Full_0line.dat"
+    "/group_workspaces/jasmin2/tids/users/till/RCP/UKCA_output/Test_RCP_Full_0line.dat"  # noqa
 )
 
 MATCH = {
@@ -157,7 +157,8 @@ def main():
 
     species = ukcaheader[3][1:]
     convfac = np.asarray(ukcaheader[4][2:]).astype(float)
-    column = np.asarray(ukcaheader[5][2:]).astype(int)
+    # FLAKE8: unused variable
+    # column = np.asarray(ukcaheader[5][2:]).astype(int)
 
     # now read the original source data fron netCDF
     start = START
@@ -171,7 +172,8 @@ def main():
         factor = 1.0
         varname = PART1 + STDIC[gas][0] + PART2
         print("VAR: ", varname)
-        path = os.path.join(SOURCE, varname, PART3, "*.nc")
+        # FLAKE8: unused variable
+        # path = os.path.join(SOURCE, varname, PART3, "*.nc")
         fname = glob.glob(os.path.join(SOURCE, varname, PART3, "*.nc"))
         if len(fname) != 1:
             raise Exception("Either too many or few input nc files " +

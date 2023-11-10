@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 plot the original source files
-against what GHG_UKCA has read in and processed: trgas_ssp370_2015_2200.dat 
+against what GHG_UKCA has read in and processed: trgas_ssp370_2015_2200.dat
 
 T. Kuhlbrodt 29/11/18
 """
@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from netCDF4 import Dataset
 
-SOURCE = "/gws/nopw/j04/cmip6_prep_vol1/cmip6_ancils/data/inputs4MIPs_2018-11-01/CMIP6/ScenarioMIP/UoM/UoM-AIM-ssp370-1-2-0/atmos/yr/"
+SOURCE = "/gws/nopw/j04/cmip6_prep_vol1/cmip6_ancils/data/inputs4MIPs_2018-11-01/CMIP6/ScenarioMIP/UoM/UoM-AIM-ssp370-1-2-0/atmos/yr/"  # noqa
 PART1 = "mole_fraction_of_"
 PART2 = "_in_air"
 PART3 = "gr1-GMNHSH/v20180611"
@@ -23,7 +23,7 @@ YEARDAY = 365.0
 
 START = 2015
 END = 2200
-UKCAOUT = "/gws/nopw/j04/cmip6_prep_vol1/cmip6_ancils/users/till/Out/trgas_ssp370_2015_2200.dat"
+UKCAOUT = "/gws/nopw/j04/cmip6_prep_vol1/cmip6_ancils/users/till/Out/trgas_ssp370_2015_2200.dat"  # noqa
 
 MATCH = {
     "CO2": ["CO2"],
@@ -156,7 +156,8 @@ def main():
     species = ukcaheader[13][1:]
     print("Species: ", species)
     #    convfac=np.asarray(ukcaheader[4][2:]).astype(float)
-    column = np.asarray(ukcaheader[11][1:]).astype(int)
+    # FLAKE8: unused variable
+    # column = np.asarray(ukcaheader[11][1:]).astype(int)
 
     # now read the original source data from netCDF
     start = START - 2015
@@ -171,7 +172,8 @@ def main():
         factor = 1.0
         varname = PART1 + STDIC[gas][0] + PART2
         print("VAR: ", varname)
-        path = os.path.join(SOURCE, varname, PART3, "*.nc")
+        # FLAKE8: unused variable
+        # path = os.path.join(SOURCE, varname, PART3, "*.nc")
         fname = glob.glob(os.path.join(SOURCE, varname, PART3, "*.nc"))
         if len(fname) != 1:
             raise Exception("Either too many or few input nc files " +
