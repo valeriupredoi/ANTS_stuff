@@ -44,7 +44,7 @@ jobs:
         run: |
           cd GreenhouseGases
           pip install -e .
-          flake8
+          black --check .
           pytest
           greenhousegases/GHG_UKCA.py --help
           greenhousegases/GHG_radiation.py --help
@@ -52,6 +52,7 @@ jobs:
         run: |
           cd NitrogenDeposition
           pip install -e .
+          black --check .
           pytest
           nitrogendeposition/cmip6_ndep_jasmin_vn21.py --help
           nitrogendeposition/cmip6_ndep_jasmin_vn23_ssp585.py --help
