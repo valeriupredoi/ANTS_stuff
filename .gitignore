@@ -1,2 +1,4 @@
 .pytest_cache
 GreenhouseGases/GreenhouseGases_CMIP7.egg-info
+GreenhouseGases/greenhousegases/__pycache__
+GreenhouseGases/tests/unit/__pycache__
