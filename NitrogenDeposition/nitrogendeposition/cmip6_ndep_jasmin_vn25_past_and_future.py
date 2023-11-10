@@ -24,7 +24,7 @@ import numpy as np
 import pylab
 from iris.time import PartialDateTime
 
-print ("Here")
+print("Here")
 iris.FUTURE.netcdf_promote = True
 
 a4port = (8.27, 11.69)  # A4 paper portrait in inches
@@ -80,22 +80,26 @@ def _process(start, end, name, sourcedir, output_file, resolution, appendheadtai
     # Distinguish between timeslice (climatology for one year) / timeseries
     # based on whether an end argument is provided:
     if end is None:
-        print((
-            "Process a timeslice of {} from files in directory {} for year {}, "
-            "at {} resolution, writing result to {}."
-            "NOTE: Likely only ever to be used for 1850 Preindustrial climatology:"
-            "      If another year is requested the data from the CMIP"
-            "      1850 climatology will be in the ancillary".format(
-                name, sourcedir, start, resolution, output_file
+        print(
+            (
+                "Process a timeslice of {} from files in directory {} for year {}, "
+                "at {} resolution, writing result to {}."
+                "NOTE: Likely only ever to be used for 1850 Preindustrial climatology:"
+                "      If another year is requested the data from the CMIP"
+                "      1850 climatology will be in the ancillary".format(
+                    name, sourcedir, start, resolution, output_file
+                )
             )
-        ))
+        )
     else:
-        print((
-            "Process a timeseries of {} from files in directory {} between {} "
-            "and {}, at resolution {} writing result to {}. AppendHeadTail = {}".format(
-                name, sourcedir, start, end, resolution, output_file, appendheadtail
+        print(
+            (
+                "Process a timeseries of {} from files in directory {} between {} "
+                "and {}, at resolution {} writing result to {}. AppendHeadTail = {}".format(
+                    name, sourcedir, start, end, resolution, output_file, appendheadtail
+                )
             )
-        ))
+        )
 
 
 # -------------------------------------------------------------------------------------
@@ -123,8 +127,8 @@ def load_cube_clim_noclim(filenames, clim):
 if __name__ == "__main__":
     # __doc__ is the module docstring.
     arg_parser = argparse.ArgumentParser(
-        description=__doc__,
-        formatter_class=argparse.RawDescriptionHelpFormatter)
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
 
     # Add resolution as an argument
     arg_parser.add_argument(
@@ -229,19 +233,23 @@ def main():
             print("args.sources = ", args.sources)
             tseriesCube = tseriesCube.extract(constraint_ts)
             print("tseriesCube BBB = ", tseriesCube)
-            print("tseriesCube.coord(time).points BBB = ", tseriesCube.coord(
-                "time"
-            ).points)
-            print("len(tseriesCube.coord(time).points) BBB = ", len(
-                tseriesCube.coord("time").points
-            ))
+            print(
+                "tseriesCube.coord(time).points BBB = ",
+                tseriesCube.coord("time").points,
+            )
+            print(
+                "len(tseriesCube.coord(time).points) BBB = ",
+                len(tseriesCube.coord("time").points),
+            )
             #          tseriesCube.coord('time').points =[ i*30 +15 for i in range(len(tseriesCube.coord('time').points)) ]
-            print("tseriesCube.coord(time).points CCC = ", tseriesCube.coord(
-                "time"
-            ).points)
-            print("len(tseriesCube.coord(time).points) CCC = ", len(
-                tseriesCube.coord("time").points
-            ))
+            print(
+                "tseriesCube.coord(time).points CCC = ",
+                tseriesCube.coord("time").points,
+            )
+            print(
+                "len(tseriesCube.coord(time).points) CCC = ",
+                len(tseriesCube.coord("time").points),
+            )
 
         if (
             appendHeadTail
@@ -268,9 +276,9 @@ def main():
                 print("ENTERING APPEND SECTION:")
                 print(" ")
                 print()
-                print ([str(cell) for cell in tseriesCube.coord("time").cells()])
+                print([str(cell) for cell in tseriesCube.coord("time").cells()])
                 print("tseriesCube cell.point.year:")
-                print (
+                print(
                     [str(cell.point.year) for cell in tseriesCube.coord("time").cells()]
                 )
                 print()
@@ -283,27 +291,32 @@ def main():
             #     print 'tseriesCube_stat = ', tseriesCube_start
             tseriesCube_startm1 = tseriesCube_start
             tseriesCube_endp1 = tseriesCube_end
-            print("DOING STARTM1: tseriesCube_startm1.coord(time).points = ", tseriesCube_startm1.coord(
-                "time"
-            ).points)
-            print("DOING ENDP1:   tseriesCube_endp1.coord(time).points   = ", tseriesCube_endp1.coord(
-                "time"
-            ).points)
+            print(
+                "DOING STARTM1: tseriesCube_startm1.coord(time).points = ",
+                tseriesCube_startm1.coord("time").points,
+            )
+            print(
+                "DOING ENDP1:   tseriesCube_endp1.coord(time).points   = ",
+                tseriesCube_endp1.coord("time").points,
+            )
             tseriesCube_startm1.coord("time").points = (
                 tseriesCube_startm1.coord("time").points - 360.0
             )
             tseriesCube_endp1.coord("time").points = (
                 tseriesCube_endp1.coord("time").points + 360.0
             )
-            print("DONE STARTM1: tseriesCube_startm1.coord(time).points  = ", tseriesCube_startm1.coord(
-                "time"
-            ).points)
-            print("TSERIESCUBE tseriesCube.coord(time).points = ", tseriesCube.coord(
-                "time"
-            ).points)
-            print("DONE ENDP1:   tseriesCube_endp1.coord(time).points    = ", tseriesCube_endp1.coord(
-                "time"
-            ).points)
+            print(
+                "DONE STARTM1: tseriesCube_startm1.coord(time).points  = ",
+                tseriesCube_startm1.coord("time").points,
+            )
+            print(
+                "TSERIESCUBE tseriesCube.coord(time).points = ",
+                tseriesCube.coord("time").points,
+            )
+            print(
+                "DONE ENDP1:   tseriesCube_endp1.coord(time).points    = ",
+                tseriesCube_endp1.coord("time").points,
+            )
 
             # Concatenate the three cubes: startm1, start --> end, endp1
 
@@ -340,20 +353,20 @@ def main():
             print()
             print("tseriesCube DDD = ", tseriesCube)
             tseriesCubeRG_out = regrid(tseriesCube)
-            print("tseriesCube.coord(time).points EEE = ", tseriesCube.coord(
-                "time"
-            ).points)
+            print(
+                "tseriesCube.coord(time).points EEE = ",
+                tseriesCube.coord("time").points,
+            )
             begin = str(args.begin)
             if (pastOrFuture) == "past":  # This worked for the 1871 1905 example
                 tseriesCubeRG_out.coord("time").units = cf_units.Unit(
                     "days since " + ancRefDate + "-01-01 00:00:00", calendar="360_day"
                 )
             else:  # Copied from append bit as was used for SSPs in December, so use here for SSPs
-                print("tseriesCubeRG_out.coord(time).points[0]  = ", tseriesCubeRG_out.coord(
-                    "time"
-                ).points[
-                    0
-                ])
+                print(
+                    "tseriesCubeRG_out.coord(time).points[0]  = ",
+                    tseriesCubeRG_out.coord("time").points[0],
+                )
                 tseriesCubeRG_out.coord("time").units = cf_units.Unit(
                     "days since " + str(args.begin) + "-01-01 00:00:00",
                     calendar="360_day",
@@ -367,9 +380,10 @@ def main():
                     i * 30 + 15
                     for i in range(len(tseriesCubeRG_out.coord("time").points))
                 ]
-                print("tseriesCubeRG_out.coord(time).points FFF = ", tseriesCubeRG_out.coord(
-                    "time"
-                ).points)
+                print(
+                    "tseriesCubeRG_out.coord(time).points FFF = ",
+                    tseriesCubeRG_out.coord("time").points,
+                )
 
         tseriesCubeRG_out.var_name = "n_dep"
         tseriesCubeRG_out.long_name = "NITROGEN DEPOSITION (kgN/m2/s)"

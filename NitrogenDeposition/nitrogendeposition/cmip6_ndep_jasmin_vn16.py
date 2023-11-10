@@ -170,12 +170,14 @@ def main():
             print("histCube_2014.coord(time) = ", histCube_2014.coord("time"))
             print()
             print()
-            print("histCube_1850.coord(time).points = ", histCube_1850.coord(
-                "time"
-            ).points)
-            print("histCube_2014.coord(time).points = ", histCube_2014.coord(
-                "time"
-            ).points)
+            print(
+                "histCube_1850.coord(time).points = ",
+                histCube_1850.coord("time").points,
+            )
+            print(
+                "histCube_2014.coord(time).points = ",
+                histCube_2014.coord("time").points,
+            )
             print()
             print()
 
@@ -190,12 +192,14 @@ def main():
             print("histCubes_1849_to_2015                = ", histCubes_1849_to_2015)
             print("histCubes_1849_to_2015_cc             = ", histCubes_1849_to_2015_cc)
             print()
-            print("histCubes_1849_to_2015_cc.coord(time) = ", histCubes_1849_to_2015_cc.coord(
-                "time"
-            ))
-            print("histCubes_1849_to_2015_cc.coord(time).points = ", histCubes_1849_to_2015_cc.coord(
-                "time"
-            ).points)
+            print(
+                "histCubes_1849_to_2015_cc.coord(time) = ",
+                histCubes_1849_to_2015_cc.coord("time"),
+            )
+            print(
+                "histCubes_1849_to_2015_cc.coord(time).points = ",
+                histCubes_1849_to_2015_cc.coord("time").points,
+            )
             print()
 
             # Regrid to the target grid
@@ -218,9 +222,10 @@ def main():
     ants.utils.coord.guess_bounds(histCube_out.coord("time"), strict=True)
 
     print()
-    print("histCube_out.coord(time).points after guess bounds = ", histCube_out.coord(
-        "time"
-    ).points)
+    print(
+        "histCube_out.coord(time).points after guess bounds = ",
+        histCube_out.coord("time").points,
+    )
     print()
     print(histCube)
     print(histCube.__class__.__name__)

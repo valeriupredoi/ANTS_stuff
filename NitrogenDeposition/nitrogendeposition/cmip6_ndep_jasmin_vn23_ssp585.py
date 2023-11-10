@@ -24,7 +24,7 @@ import numpy as np
 import pylab
 from iris.time import PartialDateTime
 
-print ("Here")
+print("Here")
 iris.FUTURE.netcdf_promote = True
 
 a4port = (8.27, 11.69)  # A4 paper portrait in inches
@@ -64,22 +64,26 @@ def _process(start, end, name, sourcedir, output_file, resolution, appendheadtai
     # Distinguish between timeslice (climatology for one year) / timeseries
     # based on whether an end argument is provided:
     if end is None:
-        print((
-            "Process a timeslice of {} from files in directory {} for year {}, "
-            "at {} resolution, writing result to {}."
-            "NOTE: Likely only ever to be used for 1850 Preindustrial climatology:"
-            "      If another year is requested the data from the CMIP"
-            "      1850 climatology will be in the ancillary".format(
-                name, sourcedir, start, resolution, output_file
+        print(
+            (
+                "Process a timeslice of {} from files in directory {} for year {}, "
+                "at {} resolution, writing result to {}."
+                "NOTE: Likely only ever to be used for 1850 Preindustrial climatology:"
+                "      If another year is requested the data from the CMIP"
+                "      1850 climatology will be in the ancillary".format(
+                    name, sourcedir, start, resolution, output_file
+                )
             )
-        ))
+        )
     else:
-        print((
-            "Process a timeseries of {} from files in directory {} between {} "
-            "and {}, at resolution {} writing result to {}. AppendHeadTail = {}".format(
-                name, sourcedir, start, end, resolution, output_file, appendheadtail
+        print(
+            (
+                "Process a timeseries of {} from files in directory {} between {} "
+                "and {}, at resolution {} writing result to {}. AppendHeadTail = {}".format(
+                    name, sourcedir, start, end, resolution, output_file, appendheadtail
+                )
             )
-        ))
+        )
 
 
 # -------------------------------------------------------------------------------------
@@ -109,8 +113,8 @@ def load_cube_clim_noclim(filenames, clim):
 if __name__ == "__main__":
     # __doc__ is the module docstring.
     arg_parser = argparse.ArgumentParser(
-        description=__doc__,
-        formatter_class=argparse.RawDescriptionHelpFormatter)
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
 
     # Add resolution as an argument
     arg_parser.add_argument(
@@ -193,9 +197,10 @@ def main():
         )
         print("tseriesCube AAA = ", tseriesCube)
         print("tseriesCube.coord(time).points AAA = ", tseriesCube.coord("time").points)
-        print("len(tseriesCube.coord(time).points) AAA = ", len(
-            tseriesCube.coord("time").points
-        ))
+        print(
+            "len(tseriesCube.coord(time).points) AAA = ",
+            len(tseriesCube.coord("time").points),
+        )
         #        tseriesCube.coord('time').units  = cf_units.Unit("days since 1850-01-01 00:00:00", calendar='360_day')
         tseriesCube.coord("time").units = cf_units.Unit(
             "days since 1850-01-01 00:00:00", calendar="365_day"
@@ -213,19 +218,23 @@ def main():
             print("args.sources = ", args.sources)
             tseriesCube = tseriesCube.extract(constraint_ts)
             print("tseriesCube BBB = ", tseriesCube)
-            print("tseriesCube.coord(time).points BBB = ", tseriesCube.coord(
-                "time"
-            ).points)
-            print("len(tseriesCube.coord(time).points) BBB = ", len(
-                tseriesCube.coord("time").points
-            ))
+            print(
+                "tseriesCube.coord(time).points BBB = ",
+                tseriesCube.coord("time").points,
+            )
+            print(
+                "len(tseriesCube.coord(time).points) BBB = ",
+                len(tseriesCube.coord("time").points),
+            )
             #          tseriesCube.coord('time').points =[ i*30 +15 for i in range(len(tseriesCube.coord('time').points)) ]
-            print("tseriesCube.coord(time).points CCC = ", tseriesCube.coord(
-                "time"
-            ).points)
-            print("len(tseriesCube.coord(time).points) CCC = ", len(
-                tseriesCube.coord("time").points
-            ))
+            print(
+                "tseriesCube.coord(time).points CCC = ",
+                tseriesCube.coord("time").points,
+            )
+            print(
+                "len(tseriesCube.coord(time).points) CCC = ",
+                len(tseriesCube.coord("time").points),
+            )
 
         if (
             appendHeadTail
