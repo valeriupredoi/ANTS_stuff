@@ -1,0 +1,52 @@
+name: GreenhouseGases Test
+
+on:
+  push:
+    branches:
+      - main
+  # schedule:
+  #   - cron: '0 0 * * *'  # nightly
+
+# Required shell entrypoint to have properly configured bash shell
+defaults:
+  run:
+    shell: bash -l {0}
+
+jobs:
+  linux:
+    runs-on: "ubuntu-latest"
+    strategy:
+      matrix:
+        python-version: ["3.7"]  # ["3.9", "3.10", "3.11", "3.12"]
+      fail-fast: false
+    name: Linux Python ${{ matrix.python-version }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          activate-environment: ants-scripts
+          environment-file: ants_environment.yml
+          python-version: ${{ matrix.python-version }}
+          miniforge-version: "latest"
+          miniforge-variant: Mambaforge
+          use-mamba: true
+      - name: Gather basic env information
+        run: |
+          conda --version
+          python -V
+      - name: Install ANTS
+        run: |
+          cd ants
+          pip install -e .
+      - name: Install ANCIL scripts
+        run: |
+          cd scripts
+          pip install -e .
+      - name: Test GreenhouseGases commands
+        run: |
+          greenhousegases/GHG_UKCA.py --help
+          greenhousegases/GHG_radiation.py --help
+      - name: Test GreenhouseGases
+        run: pytest
