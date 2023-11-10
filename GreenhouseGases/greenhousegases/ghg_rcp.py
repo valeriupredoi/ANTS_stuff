@@ -129,7 +129,8 @@ def main():
         path = os.path.join(SOURCE, varname, PART3, "*.nc")
         fname = glob.glob(os.path.join(SOURCE, varname, PART3, "*.nc"))
         if len(fname) != 1:
-            raise Exception("Either too many or few input nc files " + gas["name"])
+            raise Exception("Either too many or few input nc files " +
+                            gas["name"])
         #   add some exceptions
         if gas[0:4] == "DUMM":
             factor = DUM
@@ -151,11 +152,14 @@ def main():
     fname = TARGET
     with open(fname, "w") as outp:
         #   the header
-        outp.write("! historical GHG data for CMIP6 \n! source: " + SOURCE + " \n")
+        outp.write("! historical GHG data for CMIP6 \n! source: " + SOURCE +
+                   " \n")
         outp.write(" &THISFILE_SPECIFICATIONS \n")
-        outp.write(" THISFILE_DATACOLUMNS    =          " + str(size[0]) + ", \n")
+        outp.write(" THISFILE_DATACOLUMNS    =          " + str(size[0]) +
+                   ", \n")
         outp.write(" THISFILE_FIRSTYEAR      =        " + str(START) + ", \n")
-        outp.write(" THISFILE_LASTYEAR       =        " + str(END - 1) + ", \n")
+        outp.write(" THISFILE_LASTYEAR       =        " + str(END - 1) +
+                   ", \n")
         outp.write(" THISFILE_ANNUALSTEPS    =           1, \n")
         outp.write(" THISFILE_FIRSTDATAROW   =          15, \n")
         outp.write(" THISFILE_UNITS          =  SEE ROW 13, \n")
@@ -163,23 +167,15 @@ def main():
         #   the data
         outp.write("   COLUMN:   ")
         for i in np.arange(size[0]):
-            outp.write(
-                "   %i" % (i + 1),
-            )
+            outp.write("   %i" % (i + 1), )
         outp.write("\n   UNITS:   ")
         for counter, value in enumerate(units):
-            outp.write(
-                "   %s" % OMAG[value][0],
-            )
+            outp.write("   %s" % OMAG[value][0], )
         outp.write("\n   YEARS   ")
         for i in np.arange(size[0]):
-            outp.write(
-                "   %s" % GASES[i],
-            )
+            outp.write("   %s" % GASES[i], )
         for j in np.arange(size[1]):
-            outp.write(
-                "\n   %i" % int(taxis[j] / 365.24),
-            )
+            outp.write("\n   %i" % int(taxis[j] / 365.24), )
             for i in np.arange(size[0]):
                 outp.write("    %7.4e" % molef[i][j])
         outp.write("\n")

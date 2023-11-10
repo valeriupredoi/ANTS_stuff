@@ -168,11 +168,8 @@ def ukcaancil(start, end, source_files, output_file, project, data_version):
     # Output file will have corrected start year in filename, so the user is
     # informed of the change in two ways (filename and python warning).
     if start < YRSHIFT:
-        warn(
-            (
-                "'start' argument {} is earlier than origin year. Resetting " "to {}"
-            ).format(start, YRSHIFT)
-        )
+        warn(("'start' argument {} is earlier than origin year. Resetting "
+              "to {}").format(start, YRSHIFT))
         start = YRSHIFT
 
     # load files
@@ -185,12 +182,15 @@ def ukcaancil(start, end, source_files, output_file, project, data_version):
         if project == "historical":  # turn underscores into dashes
             varname_mod = PART1 + STDIC[gas][0] + PART2
             varname_mod = varname_mod.replace("_", "-")
-            fname = glob.glob(os.path.join(source_files[0], varname_mod, PART3, "*.nc"))
+            fname = glob.glob(
+                os.path.join(source_files[0], varname_mod, PART3, "*.nc"))
         elif project == "scenarioMIP":
-            fname = glob.glob(os.path.join(source_files[0], varname, PART3, "*.nc"))
+            fname = glob.glob(
+                os.path.join(source_files[0], varname, PART3, "*.nc"))
         print(fname[0])
         if len(fname) != 1:
-            raise Exception("Either too many or no input nc files " + gas["name"])
+            raise Exception("Either too many or no input nc files " +
+                            gas["name"])
         #   add some exceptions
         if gas[0:4] == "DUMM":
             factor = DUM
@@ -203,9 +203,10 @@ def ukcaancil(start, end, source_files, output_file, project, data_version):
             times.append(fh.variables["time"][start - YRSHIFT])
         else:
             molef.append(
-                fh.variables[varname][start - YRSHIFT : end - YRSHIFT + 1, 0] * factor
-            )
-            times.append(fh.variables["time"][start - YRSHIFT : end - YRSHIFT + 1])
+                fh.variables[varname][start - YRSHIFT:end - YRSHIFT + 1, 0] *
+                factor)
+            times.append(fh.variables["time"][start - YRSHIFT:end - YRSHIFT +
+                                              1])
         units.append(fh.variables[varname].units)
         fh.close()
 
@@ -220,20 +221,18 @@ def ukcaancil(start, end, source_files, output_file, project, data_version):
         fname1 = output_file + str(start) + "_" + str(end) + ".dat"
     with open(fname1, "w") as outp:
         #   the header
-        outp.write(
-            "! "
-            + project
-            + " GHG data for CMIP6 \n! source: "
-            + source_files[0]
-            + " \n"
-        )
+        outp.write("! " + project + " GHG data for CMIP6 \n! source: " +
+                   source_files[0] + " \n")
         outp.write(" &THISFILE_SPECIFICATIONS \n")
-        outp.write(" THISFILE_DATACOLUMNS    =          " + str(size[0]) + ", \n")
+        outp.write(" THISFILE_DATACOLUMNS    =          " + str(size[0]) +
+                   ", \n")
         outp.write(" THISFILE_FIRSTYEAR      =        " + str(start) + ", \n")
         if end is None:
-            outp.write(" THISFILE_LASTYEAR       =        " + str(start) + ", \n")
+            outp.write(" THISFILE_LASTYEAR       =        " + str(start) +
+                       ", \n")
         else:
-            outp.write(" THISFILE_LASTYEAR       =        " + str(end) + ", \n")
+            outp.write(" THISFILE_LASTYEAR       =        " + str(end) +
+                       ", \n")
         outp.write(" THISFILE_ANNUALSTEPS    =           1, \n")
         outp.write(" THISFILE_FIRSTDATAROW   =          15, \n")
         outp.write(" THISFILE_UNITS          =  SEE ROW 13, \n")
@@ -241,9 +240,7 @@ def ukcaancil(start, end, source_files, output_file, project, data_version):
         #   the data
         outp.write("   COLUMN:   ")
         for i in np.arange(size[0]):
-            outp.write(
-                "   %i" % (i + 1),
-            )
+            outp.write("   %i" % (i + 1), )
         #  temporary fix: write the units into the header of the output file
         outp.write(UNITSHEADER)
         #        outp.write("\n   UNITS:   ")
@@ -251,20 +248,14 @@ def ukcaancil(start, end, source_files, output_file, project, data_version):
         #            outp.write("   %s" %OMAG[value][0],)
         outp.write("\n   YEARS   ")
         for i in np.arange(size[0]):
-            outp.write(
-                "   %s" % GASES[i],
-            )
+            outp.write("   %s" % GASES[i], )
         if end is None:
-            outp.write(
-                "\n   %i" % int(taxis / YRLEN + YRBEG),
-            )
+            outp.write("\n   %i" % int(taxis / YRLEN + YRBEG), )
             for i in np.arange(size[0]):
                 outp.write("    %7.4e" % molef[i])
         else:
             for j in np.arange(size[1]):
-                outp.write(
-                    "\n   %i" % int(taxis[j] / YRLEN + YRBEG),
-                )
+                outp.write("\n   %i" % int(taxis[j] / YRLEN + YRBEG), )
                 for i in np.arange(size[0]):
                     outp.write("    %7.4e" % molef[i][j])
         outp.write("\n")
@@ -281,10 +272,8 @@ if __name__ == "__main__":
         description=__doc__,
         formatter_class=argparse.RawDescriptionHelpFormatter)
     args = arg_parser.parse_args()
-    _process(
-        args.begin, args.end, args.sources, args.output, args.project, args.data_version
-    )
-
+    _process(args.begin, args.end, args.sources, args.output, args.project,
+             args.data_version)
 """
 Example usages:
 

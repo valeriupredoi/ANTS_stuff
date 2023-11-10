@@ -174,7 +174,8 @@ def main():
         path = os.path.join(SOURCE, varname, PART3, "*.nc")
         fname = glob.glob(os.path.join(SOURCE, varname, PART3, "*.nc"))
         if len(fname) != 1:
-            raise Exception("Either too many or few input nc files " + gas["name"])
+            raise Exception("Either too many or few input nc files " +
+                            gas["name"])
         #   add some exceptions
         if gas[0:4] == "DUMM":
             factor = DUM
@@ -197,14 +198,21 @@ def main():
     # cycle through GASES
     plt.figure(figsize=(2 * 11.69, 2 * 8.27))
     print("PLOTTING NOW")
-    plt.suptitle("netCDF in: green, UKCA ancil: red \n Scenario: UoM-AIM-ssp370-1-2-0")
+    plt.suptitle(
+        "netCDF in: green, UKCA ancil: red \n Scenario: UoM-AIM-ssp370-1-2-0")
     for counter, spec in enumerate(GASES):
 
         ind = GASES_NC.index(spec)
         print("ind: ", ind)
-        print("now plotting gas: ", spec, " i.e. ", gasspec[
-            ind
-        ], " from nc file and gas ", GASES_NC[ind], "from UKCA ASCII file")
+        print(
+            "now plotting gas: ",
+            spec,
+            " i.e. ",
+            gasspec[ind],
+            " from nc file and gas ",
+            GASES_NC[ind],
+            "from UKCA ASCII file",
+        )
         rcp = molef[:][ind]
         #        print "plot shape: ", np.shape(rcp[:])
         # units in source files are wrong

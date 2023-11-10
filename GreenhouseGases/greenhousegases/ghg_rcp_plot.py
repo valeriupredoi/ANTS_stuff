@@ -202,11 +202,11 @@ def main():
         print("UKCA species: ", species[ukcaind])
         conv = convfac[ukcaind - 1]
         print("convfac: ", conv)
-        ukca = ukcaout[: 350 * 12, ukcaind] / conv / unit
+        ukca = ukcaout[:350 * 12, ukcaind] / conv / unit
         #        print "UKCA time series: ", ukca
 
         plt.subplot(4, 5, counter + 1)
-        plt.plot(rcpin[:, 0], rcp[:], "b", ukcaout[: 350 * 12, 0], ukca, "r-")
+        plt.plot(rcpin[:, 0], rcp[:], "b", ukcaout[:350 * 12, 0], ukca, "r-")
         plt.title(spec + " [" + unitstr + "]")
     #        plt.xlabel("years")
 

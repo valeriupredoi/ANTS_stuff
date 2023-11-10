@@ -144,13 +144,8 @@ def write_rose_conf(gas_mmr):
         outp.write("[namelist:clmchfcg]")
         outp.write("\n")
         for gas in GASES_NON_UM:
-            outp.write(
-                "clim_fcg_levls_"
-                + gas["name"].lower()
-                + "="
-                + str(ntimes)
-                + "*-32768.0"
-            )
+            outp.write("clim_fcg_levls_" + gas["name"].lower() + "=" +
+                       str(ntimes) + "*-32768.0")
             outp.write("\n")
         for gas in GASES:
             for line in range(ntimes / 6 + 1):
@@ -161,9 +156,8 @@ def write_rose_conf(gas_mmr):
                     outp.write("    =")
                 for i in range(6):
                     try:
-                        outp.write(
-                            "%7.4e," % gas_mmr[(gas["name"], "mmr")][line * 6 + i]
-                        )
+                        outp.write("%7.4e," %
+                                   gas_mmr[(gas["name"], "mmr")][line * 6 + i])
                     except:
                         pass
                 outp.write("\n")
@@ -172,32 +166,22 @@ def write_rose_conf(gas_mmr):
             outp.write("clim_fcg_nyears_" + gas["name"].lower() + "=0")
             outp.write("\n")
         for gas in GASES:
-            outp.write("clim_fcg_nyears_" + gas["name"].lower() + "=" + str(ntimes))
+            outp.write("clim_fcg_nyears_" + gas["name"].lower() + "=" +
+                       str(ntimes))
             outp.write("\n")
         # write rates
         for gas in GASES_NON_UM:
-            outp.write(
-                "clim_fcg_rates_"
-                + gas["name"].lower()
-                + "="
-                + str(ntimes)
-                + "*-32768.0"
-            )
+            outp.write("clim_fcg_rates_" + gas["name"].lower() + "=" +
+                       str(ntimes) + "*-32768.0")
             outp.write("\n")
         for gas in GASES:
-            outp.write(
-                "clim_fcg_rates_"
-                + gas["name"].lower()
-                + "="
-                + str(ntimes)
-                + "*-32768.0"
-            )
+            outp.write("clim_fcg_rates_" + gas["name"].lower() + "=" +
+                       str(ntimes) + "*-32768.0")
             outp.write("\n")
         # write years
         for gas in GASES_NON_UM:
-            outp.write(
-                "clim_fcg_years_" + gas["name"].lower() + "=" + str(ntimes) + "*-32768"
-            )
+            outp.write("clim_fcg_years_" + gas["name"].lower() + "=" +
+                       str(ntimes) + "*-32768")
             outp.write("\n")
         loop_step = 12
         for gas in GASES:
@@ -209,9 +193,9 @@ def write_rose_conf(gas_mmr):
                     outp.write("    =")
                 for i in range(loop_step):
                     try:
-                        outp.write(
-                            "%d," % gas_mmr[(gas["name"], "year")][line * loop_step + i]
-                        )
+                        outp.write("%d," %
+                                   gas_mmr[(gas["name"],
+                                            "year")][line * loop_step + i])
                     except:
                         pass
                 outp.write("\n")
