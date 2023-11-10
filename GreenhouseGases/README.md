@@ -6,9 +6,11 @@
 
 ## Tests passing
 
+black==black, 21.12b0 (compiled: no)
+
 ```
 pip install -e .
-flake8
+black --check .
 pytest
 greenhousegases/GHG_UKCA.py --help
 greenhousegases/GHG_radiation.py --help
