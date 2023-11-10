@@ -8,7 +8,7 @@ import numpy as np
 from netCDF4 import Dataset
 
 
-def __doc__():
+def __doc2__():
     fstr = f"""
         reformat the CMIP6 GHG data suitable for the rose suite configuration file
         convert from mole fraction into mass mixing ratio
