@@ -4,9 +4,6 @@ Create the ancillaries needed to represent nitrogen deposition in UKESM1 for the
 """
 import datetime
 
-import ants
-import ants.decomposition as decomp
-import ants.fileformats
 import cf_units
 import iris
 import iris.analysis
@@ -17,6 +14,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pylab
 from iris.time import PartialDateTime
+
+import ants
+import ants.decomposition as decomp
+import ants.fileformats
 
 iris.FUTURE.netcdf_promote = True
 
