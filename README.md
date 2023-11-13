@@ -27,6 +27,13 @@ FCM adventures (fun with FCM, because we're in 1997 back again!)
 - branch info avail with ``fcm binfo``, or git-like ``fcm status``
 
 
+List of converted and packaged scripts
+--------------------------------------
+*these are temporary branches on contrib, before they get merged*
+
+- [NitrogenDeposition](https://code.metoffice.gov.uk/trac/ancil/browser/contrib/branches/dev/valeriupredoi/r14981_2223_CMIP7_ancil-scripts_NitrogenDeposition/Projects/CMIP/CMIP7/NitrogenDeposition)
+- [GreenhouseGases](https://code.metoffice.gov.uk/trac/ancil/browser/contrib/branches/dev/valeriupredoi/r14981_2223_CMIP7_ancil-scripts_GreenhouseGases/Projects/CMIP/CMIP7/GreenhouseGases)
+
 Python status
 -------------
 
