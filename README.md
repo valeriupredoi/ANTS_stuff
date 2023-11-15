@@ -25,6 +25,7 @@ FCM adventures (fun with FCM, because we're in 1997 back again!)
 - put stuff in where one needs committing
 - remember to add ``fcm add [whatever]`` and switch branches ``fcm switch https://code.metoffice.gov.uk/svn/ancil/contrib/branches/dev/valeriupredoi/r14981_2223_CMIP7_ancil-scripts_part1`` before committing with ``fcm commit [whatever]``
 - branch info avail with ``fcm binfo``, or git-like ``fcm status``
+- delete branch with eg ``fcm branch-delete https://code.metoffice.gov.uk/svn/ancil/contrib/branches/dev/valeriupredoi/r14981_2223_CMIP7_ancil-scripts_GreenhouseGases``
 
 
 List of converted and packaged scripts
