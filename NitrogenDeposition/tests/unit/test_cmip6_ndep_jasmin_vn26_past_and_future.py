@@ -1,21 +1,22 @@
-import os
-import sys
-
-import subprocess
 import contextlib
 import functools
+import os
+import subprocess
+import sys
+from pathlib import Path
+from unittest.mock import patch
+
 import iris
 import numpy as np
 import pytest
-
-from pathlib import Path
-from unittest.mock import patch
 from iris.cube import Cube, CubeList
+
 from nitrogendeposition import cmip6_ndep_jasmin_vn26_past_and_future
-from nitrogendeposition.cmip6_ndep_jasmin_vn26_past_and_future import (regrid,
+from nitrogendeposition.cmip6_ndep_jasmin_vn26_past_and_future import (
     load_cube_clim_noclim,
+    main,
+    regrid,
     save_cube,
-    main
 )
 
 
@@ -31,7 +32,7 @@ def wrapper(f):
     @functools.wraps(f)
     def empty(*args, **kwargs):
         if kwargs:
-            raise ValueError(f'Parameters not supported: {kwargs}')
+            raise ValueError(f"Parameters not supported: {kwargs}")
         return True
 
     return empty
@@ -40,30 +41,30 @@ def wrapper(f):
 def _create_sample_cube():
     """Create sample cube."""
     data = np.ones((2, 5, 5), dtype=np.float32)
-    cube = Cube(data, var_name='co2', units='J')
+    cube = Cube(data, var_name="co2", units="J")
     cube.add_dim_coord(
         iris.coords.DimCoord(
             [0, 1],
-            standard_name='time',
-            units='days since 2000-01-01',
+            standard_name="time",
+            units="days since 2000-01-01",
         ),
         0,
     )
     cube.add_dim_coord(
         iris.coords.DimCoord(
-            [i + .5 for i in range(5)],
-            standard_name='longitude',
-            bounds=[[i, i + 1.] for i in range(5)],
-            units='degrees_east',
+            [i + 0.5 for i in range(5)],
+            standard_name="longitude",
+            bounds=[[i, i + 1.0] for i in range(5)],
+            units="degrees_east",
         ),
         1,
     )
     cube.add_dim_coord(
         iris.coords.DimCoord(
-            [i + .5 for i in range(5)],
-            standard_name='latitude',
-            bounds=[[i, i + 1.] for i in range(5)],
-            units='degrees_north',
+            [i + 0.5 for i in range(5)],
+            standard_name="latitude",
+            bounds=[[i, i + 1.0] for i in range(5)],
+            units="degrees_north",
         ),
         2,
     )
@@ -93,14 +94,19 @@ def test_load_cube_clim_noclim(tmp_path):
     assert not tested_out
 
 
-@patch('nitrogendeposition.cmip6_ndep_jasmin_vn26_past_and_future.main',
-       new=wrapper(main))
+@patch(
+    "nitrogendeposition.cmip6_ndep_jasmin_vn26_past_and_future.main", new=wrapper(main)
+)
 def test_main():
     """Test main."""
     tested_out = main()
     assert not tested_out
-    with arguments('python', 'nitrogendeposition/cmip6_ndep_jasmin_vn26_past_and_future.py',
-                   '--end', '2000'):
+    with arguments(
+        "python",
+        "nitrogendeposition/cmip6_ndep_jasmin_vn26_past_and_future.py",
+        "--end",
+        "2000",
+    ):
         assert not main()
 
 
@@ -134,8 +140,10 @@ def test_main_withNdep():
 
     cmd = [
         executable,
-        "--resolution", "./TESTDIR_N96E_SSP585/qrparm.mask_n96e_eorca1_v2.2x_ESMF",
-        "-n", "Ndep"
+        "--resolution",
+        "./TESTDIR_N96E_SSP585/qrparm.mask_n96e_eorca1_v2.2x_ESMF",
+        "-n",
+        "Ndep",
     ]
     process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdoutdata, stderrdata = process.communicate()
