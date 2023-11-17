@@ -111,6 +111,7 @@ def load_cube_clim_noclim(filenames, clim):
         cubes = [cube for cube in cubes if len(cube.coord(axis="t").points) == 12]
     else:
         cubes = [cube for cube in cubes if len(cube.coord(axis="t").points) != 12]
+
     return cubes
 
 
@@ -304,7 +305,7 @@ def main():
 
             # Regrid the source data to the UKESM grid
             beginm1 = str(args.begin - 1)
-            tseriesCubeRG_out = regrid(tseriesCubes_startm1_to_endp1_cc)
+            tseriesCubeRG_out = regrid(tseriesCubes_startm1_to_endp1_cc, gridFile)
             #           tseriesCubeRG_out.coord('time').units  = cf_units.Unit("days since 1850-01-01 00:00:00", calendar='360_day')
             tseriesCubeRG_out.coord("time").units = cf_units.Unit(
                 "days since " + str(args.begin) + "-01-01 00:00:00", calendar="360_day"
@@ -312,7 +313,7 @@ def main():
 
         else:
 
-            tseriesCubeRG_out = regrid(tseriesCube)
+            tseriesCubeRG_out = regrid(tseriesCube, gridFile)
             begin = str(args.begin)
             if (pastOrFuture) == "past":  # This worked for the 1871 1905 example
                 tseriesCubeRG_out.coord("time").units = cf_units.Unit(
@@ -372,7 +373,7 @@ def main():
         tsliceCube.coord("time").bounds = None
         ants.utils.coord.guess_bounds(tsliceCube.coord("time"), strict=True)
 
-        tsliceCubeRG = regrid(tsliceCube)
+        tsliceCubeRG = regrid(tsliceCube, gridFile)
         tsliceCubeRG.data = np.clip(tsliceCubeRG.data, 0.0, float("Inf"))
         save_cube(tsliceCubeRG, args.output, args.use_new_saver)
         tsliceCubeRG.attributes["description"] = description
@@ -382,7 +383,7 @@ def main():
 # -----------------------------------------------------------------------------------------------------
 # Subroutine to regrid source data from its native grid to the model grid at the required resolution
 # -----------------------------------------------------------------------------------------------------
-def regrid(inCube):
+def regrid(inCube, gridFile):
 
     gridCube = ants.load_cube(gridFile, iris.AttributeConstraint(STASH="m01s00i030"))
     inCube.coord("latitude").coord_system = gridCube.coord("latitude").coord_system
