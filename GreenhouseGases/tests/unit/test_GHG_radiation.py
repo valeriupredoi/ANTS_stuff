@@ -13,18 +13,28 @@ from greenhousegases.GHG_radiation import (
 )
 
 
-def _create_sample_cube(varname):
+def _create_sample_cube(varname, ancient_time=False):
     """Create sample cube."""
     data = np.ones((5, 5, 5), dtype=np.float32)
     cube = Cube(data, var_name=varname, units="J")
-    cube.add_dim_coord(
-        iris.coords.DimCoord(
-            [0, 1000, 2000, 3000, 4000],
-            standard_name="time",
-            units="years since 2000-01-01",
-        ),
-        0,
-    )
+    if ancient_time:
+        cube.add_dim_coord(
+            iris.coords.DimCoord(
+                [1000, 2000, 3000, 4000, 5000],
+                standard_name="time",
+                units="years since 01-01-01",
+            ),
+            0,
+        )
+    else:
+        cube.add_dim_coord(
+            iris.coords.DimCoord(
+                [0, 1000, 2000, 3000, 4000],
+                standard_name="time",
+                units="years since 2000-01-01",
+            ),
+            0,
+        )
     cube.add_dim_coord(
         iris.coords.DimCoord(
             [i + 0.5 for i in range(5)],
@@ -81,7 +91,6 @@ def test_ghg_ssp_historical(tmp_path):
     print("Cube saved to:", cube_saved_path)
     iris.save(in_cube, cube_saved_path)
     source_files = str(tmp_path)
-
     with pytest.raises(SystemExit) as exc:
         gas_out, time_out = ghg_ssp(
             gas_in, start, end,
@@ -104,3 +113,37 @@ def test_ghg_ssp_historical(tmp_path):
     expected_time_out = [3., 4.]
     np.testing.assert_array_equal(gas_out, expected_gas_out)
     np.testing.assert_array_equal(time_out, expected_time_out)
+
+
+def test_ghg_ssp_scenario(tmp_path):
+    """Test ghg_ssp() func with project=historical."""
+    # in data
+    in_cube = _create_sample_cube("mole_fraction_of__in_air",
+                                  ancient_time=True)
+    gas_in_cube = _create_sample_cube("varname")
+    gas_in = {
+        "name": "HFC125", "converfac": 2, "units": 2, "varname": ""
+    }
+
+    # run routine
+    project = "scenarioMIP"
+    save_path = tmp_path / "mole_fraction_of__in_air"
+    save_path = os.path.join(save_path, "gr1-GMNHSH/v20160830")
+    os.makedirs(save_path)
+    print("Test files location:", save_path)
+    cube_saved_path = os.path.join(save_path, "indata.nc")
+    print("Cube saved to:", cube_saved_path)
+    iris.save(in_cube, cube_saved_path)
+    source_files = str(tmp_path)
+
+    start = 1870
+    end = 1900
+
+    with pytest.raises(SystemExit) as exc:
+        gas_out, time_out = ghg_ssp(
+            gas_in, start, end,
+            source_files, project,
+            data_version="v20160830"
+        )
+        srexc = "Starting year needs to be earlier than finishing year"
+        assert srexc in str(exc)
