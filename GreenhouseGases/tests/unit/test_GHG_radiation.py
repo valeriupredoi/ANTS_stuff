@@ -19,9 +19,9 @@ def _create_sample_cube(varname):
     cube = Cube(data, var_name=varname, units="J")
     cube.add_dim_coord(
         iris.coords.DimCoord(
-            [0, 1, 2, 3, 4],
+            [0, 1000, 2000, 3000, 4000],
             standard_name="time",
-            units="days since 2000-01-01",
+            units="years since 2000-01-01",
         ),
         0,
     )
@@ -91,4 +91,16 @@ def test_ghg_ssp_historical(tmp_path):
         srexc = "Starting year needs to be earlier than finishing year"
         assert srexc in str(exc)
 
-    
+
+    start = 1
+    end = 4
+
+    gas_out, time_out = ghg_ssp(
+        gas_in, start, end,
+        source_files, project,
+        data_version="v20160830"
+    )
+    expected_gas_out = [4., 4., 4., 4., 4., 4., 4., 4., 4., 4.]
+    expected_time_out = [3., 4.]
+    np.testing.assert_array_equal(gas_out, expected_gas_out)
+    np.testing.assert_array_equal(time_out, expected_time_out)
