@@ -137,7 +137,6 @@ def ghg_ssp(gas_in, start, end, source_files, project, data_version):
         fname = glob.glob(os.path.join(source_files, variname_mod, PART3, "*.nc"))
     elif project == "scenarioMIP":
         fname = glob.glob(os.path.join(source_files, variname, PART3, "*.nc"))
-    print((fname[0]), end=" ")
     if len(fname) != 1:
         raise Exception("Either too many or no input nc files " + gas_in["name"])
 
