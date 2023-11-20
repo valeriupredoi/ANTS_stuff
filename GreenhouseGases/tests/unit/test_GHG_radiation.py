@@ -10,6 +10,7 @@ from greenhousegases.GHG_radiation import (
     WATERSHED,
     interpolate,
     ghg_ssp,
+    write_rose_conf,
 )
 
 
@@ -147,3 +148,38 @@ def test_ghg_ssp_scenario(tmp_path):
         )
         srexc = "Starting year needs to be earlier than finishing year"
         assert srexc in str(exc)
+
+
+def test_write_rose_conf(tmp_path):
+    """Test write_rose_conf() func."""
+    # GASES = [CO2, CH4, N2O, CFC12, HFC]
+    gas_mmr = {
+        ("CO2", "mmr"): [3, 4, 5, 6, 7, 8, 9, 10],
+        ("CO2", "year"): [1999, 2000, 2001, 2002, 2003, 2004],
+        ("CH4", "mmr"): [3, 4, 5, 6, 7, 8, 9, 10],
+        ("CH4", "year"): [1999, 2000, 2001, 2002, 2003, 2004],
+        ("N20", "mmr"): [3, 4, 5, 6, 7, 8, 9, 10],
+        ("N20", "year"): [1999, 2000, 2001, 2002, 2003, 2004],
+        ("CFC12", "mmr"): [3, 4, 5, 6, 7, 8, 9, 10],
+        ("CFC12", "year"): [1999, 2000, 2001, 2002, 2003, 2004],
+        ("HFC134A", "mmr"): [3, 4, 5, 6, 7, 8, 9, 10],
+        ("HFC134A", "year"): [1999, 2000, 2001, 2002, 2003, 2004]
+    }
+    output_file = str(tmp_path / "dummy")
+    start = 1900
+    end = 2200
+    project = "historical"
+    conf = write_rose_conf(gas_mmr,
+                           start, end,
+                           output_file,
+                           project)
+    tested_file = str(tmp_path / "dummy1900_2200.conf")
+    print("Output written to:", output_file)
+
+    assert os.path.isfile(tested_file)
+    with open(tested_file, "r") as file:
+        all_lines = file.readlines()
+        header = "[namelist:clmchfcg]\n"
+        rando_string = "clim_fcg_nyears_n2o=6\n"
+        assert header in all_lines
+        assert rando_string in all_lines
