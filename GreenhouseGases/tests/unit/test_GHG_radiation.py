@@ -4,12 +4,12 @@ import iris
 import numpy as np
 import pytest
 from iris.cube import Cube, CubeList
-
 from netCDF4 import Dataset
+
 from greenhousegases.GHG_radiation import (
     WATERSHED,
-    interpolate,
     ghg_ssp,
+    interpolate,
     write_rose_conf,
 )
 
@@ -75,9 +75,7 @@ def test_ghg_ssp_historical(tmp_path):
     # in data
     in_cube = _create_sample_cube("mole_fraction_of__in_air")
     gas_in_cube = _create_sample_cube("varname")
-    gas_in = {
-        "name": "HFC125", "converfac": 2, "units": 2, "varname": ""
-    }
+    gas_in = {"name": "HFC125", "converfac": 2, "units": 2, "varname": ""}
 
     # run routine
     project = "historical"
@@ -94,24 +92,19 @@ def test_ghg_ssp_historical(tmp_path):
     source_files = str(tmp_path)
     with pytest.raises(SystemExit) as exc:
         gas_out, time_out = ghg_ssp(
-            gas_in, start, end,
-            source_files, project,
-            data_version="v20160830"
+            gas_in, start, end, source_files, project, data_version="v20160830"
         )
         srexc = "Starting year needs to be earlier than finishing year"
         assert srexc in str(exc)
-
 
     start = 1
     end = 4
 
     gas_out, time_out = ghg_ssp(
-        gas_in, start, end,
-        source_files, project,
-        data_version="v20160830"
+        gas_in, start, end, source_files, project, data_version="v20160830"
     )
-    expected_gas_out = [4., 4., 4., 4., 4., 4., 4., 4., 4., 4.]
-    expected_time_out = [3., 4.]
+    expected_gas_out = [4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 4.0]
+    expected_time_out = [3.0, 4.0]
     np.testing.assert_array_equal(gas_out, expected_gas_out)
     np.testing.assert_array_equal(time_out, expected_time_out)
 
@@ -119,12 +112,9 @@ def test_ghg_ssp_historical(tmp_path):
 def test_ghg_ssp_scenario(tmp_path):
     """Test ghg_ssp() func with project=historical."""
     # in data
-    in_cube = _create_sample_cube("mole_fraction_of__in_air",
-                                  ancient_time=True)
+    in_cube = _create_sample_cube("mole_fraction_of__in_air", ancient_time=True)
     gas_in_cube = _create_sample_cube("varname")
-    gas_in = {
-        "name": "HFC125", "converfac": 2, "units": 2, "varname": ""
-    }
+    gas_in = {"name": "HFC125", "converfac": 2, "units": 2, "varname": ""}
 
     # run routine
     project = "scenarioMIP"
@@ -142,9 +132,7 @@ def test_ghg_ssp_scenario(tmp_path):
 
     with pytest.raises(SystemExit) as exc:
         gas_out, time_out = ghg_ssp(
-            gas_in, start, end,
-            source_files, project,
-            data_version="v20160830"
+            gas_in, start, end, source_files, project, data_version="v20160830"
         )
         srexc = "Starting year needs to be earlier than finishing year"
         assert srexc in str(exc)
@@ -163,16 +151,13 @@ def test_write_rose_conf(tmp_path):
         ("CFC12", "mmr"): [3, 4, 5, 6, 7, 8, 9, 10],
         ("CFC12", "year"): [1999, 2000, 2001, 2002, 2003, 2004],
         ("HFC134A", "mmr"): [3, 4, 5, 6, 7, 8, 9, 10],
-        ("HFC134A", "year"): [1999, 2000, 2001, 2002, 2003, 2004]
+        ("HFC134A", "year"): [1999, 2000, 2001, 2002, 2003, 2004],
     }
     output_file = str(tmp_path / "dummy")
     start = 1900
     end = 2200
     project = "historical"
-    conf = write_rose_conf(gas_mmr,
-                           start, end,
-                           output_file,
-                           project)
+    conf = write_rose_conf(gas_mmr, start, end, output_file, project)
     tested_file = str(tmp_path / "dummy1900_2200.conf")
     print("Output written to:", output_file)
 
