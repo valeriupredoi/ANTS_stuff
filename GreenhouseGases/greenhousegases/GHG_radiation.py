@@ -137,6 +137,7 @@ def ghg_ssp(gas_in, start, end, source_files, project, data_version):
         fname = glob.glob(os.path.join(source_files, variname_mod, PART3, "*.nc"))
     elif project == "scenarioMIP":
         fname = glob.glob(os.path.join(source_files, variname, PART3, "*.nc"))
+        print(os.path.join(source_files, variname, PART3, "*.nc"))
     if len(fname) != 1:
         raise Exception("Either too many or no input nc files " + gas_in["name"])
 
@@ -166,6 +167,7 @@ def ghg_ssp(gas_in, start, end, source_files, project, data_version):
         start_read = start
         end_read = end
 
+        print("xx", time_intp)
         # check if year (start) is available in the interpolated time series
         if time_intp[0] > start:
             start_read = start_read + 1
@@ -190,6 +192,7 @@ def ghg_ssp(gas_in, start, end, source_files, project, data_version):
             # convert time array to int
             # this is what's needed for the rose-app.conf format
             time_intp = time_intp.astype(int)
+            print("ss", time_intp, start_read, end_read)
             chunk = np.where((time_intp >= start_read) & (time_intp <= end_read))
             gas_out = gas_intp[chunk]
             time_out = time_intp[chunk]
@@ -239,7 +242,7 @@ def write_rose_conf(gas_mmr, start, end, output_file, project):
             outp.write("\n")
         loop_step = 6
         for gas in GASES:
-            for line in range(ntimes / loop_step + 1):
+            for line in range(int(ntimes / loop_step) + 1):
                 #                print line
                 if line == 0:
                     outp.write("clim_fcg_levls_" + gas["name"].lower() + "=")
@@ -250,11 +253,21 @@ def write_rose_conf(gas_mmr, start, end, output_file, project):
                     #  last entry in list shouldn't be followed by a comma
                     # (makes rose GUI throw an error)
                     if count < (ntimes - 1):
-                        outp.write("%7.4e," % gas_mmr[(gas["name"], "mmr")][count])
+                        if "N2" in gas["name"]:
+                            fstr = gas_mmr[("N20", "mmr")]
+                        else:
+                            fstr = gas_mmr[(gas["name"], "mmr")]
+                        fstr = fstr[count]
+                        outp.write("%7.4e," % fstr)
                     else:
                         try:
-                            outp.write("%7.4e" % gas_mmr[(gas["name"], "mmr")][count])
-                        except RuntimeError as exc:
+                            if "N2" in gas["name"]:
+                                fstr = gas_mmr[("N20", "mmr")]
+                            else:
+                                fstr = gas_mmr[(gas["name"], "mmr")]
+                            fstr = fstr[count]
+                            outp.write("%7.4e" % fstr)
+                        except IndexError as exc:
                             print(exc)
                             break
                 outp.write("\n")
@@ -292,7 +305,7 @@ def write_rose_conf(gas_mmr, start, end, output_file, project):
             outp.write("\n")
         loop_step = 12
         for gas in GASES:
-            for line in range(ntimes / loop_step + 1):
+            for line in range(int(ntimes / loop_step) + 1):
                 #                print line
                 if line == 0:
                     outp.write("clim_fcg_years_" + gas["name"].lower() + "=")
@@ -301,11 +314,21 @@ def write_rose_conf(gas_mmr, start, end, output_file, project):
                 for i in range(loop_step):
                     count = line * loop_step + i
                     if count < (ntimes - 1):
-                        outp.write("%d," % gas_mmr[(gas["name"], "year")][count])
+                        if "N2" in gas["name"]:
+                            fstr = gas_mmr[("N20", "mmr")]
+                        else:
+                            fstr = gas_mmr[(gas["name"], "mmr")]
+                        fstr = fstr[count]
+                        outp.write("%d," % fstr)
                     else:
                         try:
-                            outp.write("%d" % gas_mmr[(gas["name"], "year")][count])
-                        except RuntimeError as exc:
+                            if "N2" in gas["name"]:
+                                fstr = gas_mmr[("N20", "mmr")]
+                            else:
+                                fstr = gas_mmr[(gas["name"], "mmr")]
+                            fstr = fstr[count]
+                            outp.write("%d" % fstr)
+                        except IndexError as exc:
                             print(exc)
                             break
                 outp.write("\n")
