@@ -95,7 +95,12 @@ def interpol(gas):
 
 
 def main(gas_in):
-    fname = glob.glob(os.path.join(SOURCEDIR, gas_in["name"], "*.nc"))
+    if "sourcedir" in gas_in:
+        sourcedir = gas_in["sourcedir"]
+    else:
+        sourcedir = SOURCEDIR
+    print("sourcedir", sourcedir)
+    fname = glob.glob(os.path.join(sourcedir, gas_in["name"], "*.nc"))
     print("FNAME", fname)
     if len(fname) != 1:
         raise Exception("Either too many or few input nc files " + gas_in["name"])
@@ -117,7 +122,7 @@ def main(gas_in):
     # write out the time series in the rose suite configuration file format
     # (csv with "=" and newlines thrown in)
     # fname=SOURCEDIR+GAS+"/"+GAS+".cnf"
-    fname = os.path.join(SOURCEDIR, gas_in["name"], gas_in["name"] + ".cnf")
+    fname = os.path.join(sourcedir, gas_in["name"], gas_in["name"] + ".cnf")
     with open(fname, "w") as outp:
         for line in range(leng / 6 + 1):
             outp.write("    =")
@@ -231,7 +236,7 @@ def write_rose_conf(gas_mmr):
 if __name__ == "__main__":
     gas_mmr = {}
     for gas in GASES:
-        mmr, year = main(gas)
+        mmr, year = main(gas, sourcedir)
         gas_mmr[(gas["name"], "mmr")] = mmr
         gas_mmr[(gas["name"], "year")] = year
 
