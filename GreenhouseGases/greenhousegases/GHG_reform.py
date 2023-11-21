@@ -182,9 +182,7 @@ def write_rose_conf(gas_mmr):
                             fstr = gas_mmr[("N20", "mmr")]
                         else:
                             fstr = gas_mmr[(gas["name"], "mmr")]
-                        outp.write(
-                            "%7.4e," % fstr[line * 6 + i]
-                        )
+                        outp.write("%7.4e," % fstr[line * 6 + i])
                     except RuntimeError as exc:
                         print(exc)
                         pass
@@ -235,9 +233,7 @@ def write_rose_conf(gas_mmr):
                             fstr = gas_mmr[("N20", "year")]
                         else:
                             fstr = gas_mmr[(gas["name"], "year")]
-                        outp.write(
-                            "%d," % fstr[line * loop_step + i]
-                        )
+                        outp.write("%d," % fstr[line * loop_step + i])
                     except RuntimeError as exc:
                         print(exc)
                         pass
