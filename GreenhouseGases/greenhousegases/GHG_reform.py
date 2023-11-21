@@ -95,13 +95,12 @@ def interpol(gas):
 
 
 def main(gas_in):
-    if "sourcedir" in gas_in:
-        sourcedir = gas_in["sourcedir"]
-    else:
+    if "sourcedir" not in gas_in:
         sourcedir = SOURCEDIR
-    print("sourcedir", sourcedir)
+    else:
+        sourcedir = gas_in["sourcedir"]
     fname = glob.glob(os.path.join(sourcedir, gas_in["name"], "*.nc"))
-    print("FNAME", fname)
+    print("File names found:", fname)
     if len(fname) != 1:
         raise Exception("Either too many or few input nc files " + gas_in["name"])
     fh = Dataset(fname[0], mode="r")
@@ -124,7 +123,7 @@ def main(gas_in):
     # fname=SOURCEDIR+GAS+"/"+GAS+".cnf"
     fname = os.path.join(sourcedir, gas_in["name"], gas_in["name"] + ".cnf")
     with open(fname, "w") as outp:
-        for line in range(leng / 6 + 1):
+        for line in range(int(leng / 6)):
             outp.write("    =")
             for i in range(6):
                 try:
@@ -134,7 +133,7 @@ def main(gas_in):
                     pass
             outp.write("\n")
 
-        for line in range(leng / 6 + 1):
+        for line in range(int(leng / 6)):
             outp.write("    =")
             for i in range(6):
                 try:
@@ -148,8 +147,12 @@ def main(gas_in):
 
 
 def write_rose_conf(gas_mmr):
+    if "sourcedir" not in gas_mmr:
+        sourcedir = SOURCEDIR
+    else:
+        sourcedir = gas_mmr["sourcedir"]
     # now write an opt file for rose
-    fname = os.path.join(SOURCEDIR, "global_ghg_cmip6.conf")
+    fname = os.path.join(sourcedir, "global_ghg_cmip6.conf")
     print(gas_mmr)
     ntimes = len(gas_mmr[(GASES[0]["name"], "year")])
     print(ntimes)
@@ -167,7 +170,7 @@ def write_rose_conf(gas_mmr):
             )
             outp.write("\n")
         for gas in GASES:
-            for line in range(ntimes / 6 + 1):
+            for line in range(int(ntimes / 6)):
                 print(line)
                 if line == 0:
                     outp.write("clim_fcg_levls_" + gas["name"].lower() + "=")
@@ -175,8 +178,12 @@ def write_rose_conf(gas_mmr):
                     outp.write("    =")
                 for i in range(6):
                     try:
+                        if "N2" in gas["name"]:
+                            fstr = gas_mmr[("N20", "mmr")]
+                        else:
+                            fstr = gas_mmr[(gas["name"], "mmr")]
                         outp.write(
-                            "%7.4e," % gas_mmr[(gas["name"], "mmr")][line * 6 + i]
+                            "%7.4e," % fstr[line * 6 + i]
                         )
                     except RuntimeError as exc:
                         print(exc)
@@ -216,7 +223,7 @@ def write_rose_conf(gas_mmr):
             outp.write("\n")
         loop_step = 12
         for gas in GASES:
-            for line in range(ntimes / loop_step + 1):
+            for line in range(int(ntimes / loop_step)):
                 print(line)
                 if line == 0:
                     outp.write("clim_fcg_years_" + gas["name"].lower() + "=")
@@ -224,8 +231,12 @@ def write_rose_conf(gas_mmr):
                     outp.write("    =")
                 for i in range(loop_step):
                     try:
+                        if "N2" in gas["name"]:
+                            fstr = gas_mmr[("N20", "year")]
+                        else:
+                            fstr = gas_mmr[(gas["name"], "year")]
                         outp.write(
-                            "%d," % gas_mmr[(gas["name"], "year")][line * loop_step + i]
+                            "%d," % fstr[line * loop_step + i]
                         )
                     except RuntimeError as exc:
                         print(exc)
