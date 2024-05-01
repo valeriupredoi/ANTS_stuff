@@ -3,6 +3,9 @@
 ```
 cd /apps/jasmin/community/ANTS
 svn checkout https://code.metoffice.gov.uk/svn/ancil/ants/tags/2.0.0/
+svn checkout https://code.metoffice.gov.uk/svn/um/mule/trunk/mule
+svn checkout https://code.metoffice.gov.uk/svn/um/mule/trunk/um_spiral_search/
+Checked out revision 123808
 cp -r 2.0.0 /apps/jasmin/community/ANTS/ants_2.0.0
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 /apps/jasmin/community/ANTS/miniconda3
@@ -33,6 +36,9 @@ Successfully installed ANTS-2.0.0
 cd lib/ants
 pytest
 162 errorrs: UserWarning:  No module named 'um_spiral_search'
-
+cd ../../../um_spiral_search
+add header file https://github.com/metomi/shumlib/blob/master/shum_spiral_search/src/c_shum_spiral_search.h
+mamba install -c coecms shumlib
+pip install -e .
 
 ```
