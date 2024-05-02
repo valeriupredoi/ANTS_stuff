@@ -1,0 +1,8 @@
+#%Module 1.0
+
+set prefix /apps/jasmin/community/ANTS/miniconda3
+
+prepend-path     PATH                    $prefix/envs/ants2/bin:$prefix/envs/ants2/lib/python3.10/site-packages:$prefix/bin
+
+setenv ESMFMKFILE /apps/jasmin/community/ANTS/miniconda3/envs/ants2/lib/esmf.mk
+source "/apps/jasmin/modulefiles/.modulefiles_include.tcl"
