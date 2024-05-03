@@ -69,7 +69,7 @@ um-utils                  2023.8.1                 pypi_0    pypi
   - `um_spiral_search`: 6 passed in 0.24s
   - `um_utils`: 62 passed in 0.60s
 
-- notes on dependencies: `esmf==8.4.2` is required for `ants` tests to pass
+- notes on dependencies: `esmf==8.4.2` is required for `ants` tests to pass (see issues with latest ESMF <https://github.com/SciTools-incubator/iris-esmf-regrid/pull/342#issuecomment-2092921514> )
 
 ## Install steps
 
