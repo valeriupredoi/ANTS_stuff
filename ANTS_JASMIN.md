@@ -1,4 +1,77 @@
+## Module on JASMIN
 
+- Module name: `ants` (2.0.0)
+
+```
+[valeriu@sci2 ~]$ module load ants
+[valeriu@sci2 ~]$ module show ants
+-------------------------------------------------------------------------------------------------------------------------------------------------
+   /apps/jasmin/modulefiles/ants/2.0.0:
+-------------------------------------------------------------------------------------------------------------------------------------------------
+prepend_path("PATH","/apps/jasmin/community/ANTS/miniconda3/envs/ants2/bin:/apps/jasmin/community/ANTS/miniconda3/envs/ants2/lib/python3.10/site-pack
+ages:/apps/jasmin/community/ANTS/miniconda3/bin")
+setenv("ESMFMKFILE","/apps/jasmin/community/ANTS/miniconda3/envs/ants2/lib/esmf.mk")
+```
+- Module location: `/apps/jasmin/modulefiles/ants/2.0.0`
+- Conda environment location: `/apps/jasmin/community/ANTS/miniconda3/envs/ants2`
+- Conda/mamba specs:
+```
+[valeriu@sci2 ~]$ mamba --version
+mamba 1.5.8
+conda 24.4.0
+```
+- `ants` version:
+```
+[valeriu@sci2 ~]$ ants-version 
+[INFO] ANTS version loaded was:
+ants: /apps/jasmin/community/ANTS/ants_2.0.0/lib/ants/__init__.py (version 2.0.0)
+[INFO] Iris version loaded was:
+iris: /apps/jasmin/community/ANTS/miniconda3/envs/ants2/lib/python3.10/site-packages/iris/__init__.py (version 3.7.1)
+```
+- Python interpreter:
+```
+[valeriu@sci2 ~]$ python -V && which python
+Python 3.10.13
+/apps/jasmin/community/ANTS/miniconda3/envs/ants2/bin/python
+```
+- check of imports:
+```
+[valeriu@sci2 ~]$ python -c "import ants"
+[valeriu@sci2 ~]$ python -c "from ants import *"
+```
+
+## Admin area (``rwx`` rights on source dir)
+
+- loading environment:
+
+```
+[valeriu@sci2 ~]$ cd /apps/jasmin/community/ANTS
+[valeriu@sci2 ANTS]$ source conda_base.sh 
+(base) [valeriu@sci2 ANTS]$ conda activate ants2
+```
+- important dependencies:
+
+```
+ants                      2.0.0                    pypi_0    pypi
+iris                      3.7.1              pyha770c72_0    conda-forge
+mule                      2023.8.1                  dev_0    <develop>
+shumlib                   2023.06.1            h3218e01_0    coecms
+esmf                      8.4.2           mpi_mpich_h2a0de38_103    conda-forge
+um-spiral-search          2023.8.1                  dev_0    <develop>
+esmpy                     8.4.2              pyhc1e730c_4    conda-forge
+numpy                     1.26.0          py310hb13e2d6_0    conda-forge
+pytest                    8.2.0              pyhd8ed1ab_0    conda-forge
+um-utils                  2023.8.1                 pypi_0    pypi
+```
+- tests:
+  - `ants`: 1352 passed, 10 xfailed in 33.15s
+  - `mule`: 264 passed, 100 warnings in 0.78s (lots of Numpy 2.0 deprecation warnings)
+  - `um_spiral_search`: 6 passed in 0.24s
+  - `um_utils`: 62 passed in 0.60s
+
+- notes on dependencies: `esmf==8.4.2` is required for `ants` tests to pass
+
+## Install steps
 
 ```
 cd /apps/jasmin/community/ANTS
